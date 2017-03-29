@@ -1,0 +1,16 @@
+<ion-view style="" id="page4" title="Settings">
+    <ion-content class="has-header" padding="true">
+	
+        <form style="" class="list">
+     <img data-ng-src="data:image/png;base64,{{userimage}}" data-err-src="images/png/avatar.png"/>
+			<ion-toggle style="" toggle-class="toggle-positive" ng-checked="true">Enable Friends</ion-toggle>
+			
+			<button ng-click="getimg()" id="logout-button" class="button button-positive button-block ">Get Image</button>
+			
+			<button ng-click="logout()" id="logout-button" class="button button-positive button-block ">Log Out</button>
+				<button ng-click="DeleteDB()" id="Delete-button" class="button button-assertive button-block ">Delete DB</button>		
+				
+				<button ng-click="DeleteDBContact()" id="Delete-button" class="button button-assertive button-block ">Delete Contacts</button>	
+        </form>
+    </ion-content>
+</ion-view>
