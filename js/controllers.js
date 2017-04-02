@@ -1,5 +1,20 @@
 angular.module('app.controllers', [])
 
+
+.controller ('TabCtrl' ,function($scope, $ionicHistory) {
+  $scope.myGoBack = function() {
+    $ionicHistory.goBack();
+  };
+  
+  
+    $scope.clearHistory = function() {
+      $ionicHistory.clearHistory();
+   };
+   
+   
+})
+
+
 .controller('registerCtrl', function($scope , $state , sharedConn   ) { 
 	
 	$scope.goToLogin=function(){
@@ -16,11 +31,25 @@ angular.module('app.controllers', [])
 	
 })
 
-.controller('settingsCtrl', function($scope,$state,$cordovaSQLite,$ionicPopup,sharedConn,$rootScope) {
+.controller('settingsCtrl', function($scope,$state,$cordovaSQLite,$ionicPopup,sharedConn,$rootScope, $timeout,ionicMaterialMotion, ionicMaterialInk) {
 	
 	
 	$scope.userimage ='';
+	  // Set Motion
+    $timeout(function() {
+        ionicMaterialMotion.slideUp({
+            selector: '.slide-up'
+        });
+    }, 300);
 
+    $timeout(function() {
+        ionicMaterialMotion.fadeSlideInRight({
+            startVelocity: 3000
+        });
+    }, 700);
+
+    // Set Ink
+    ionicMaterialInk.displayEffect();
 $scope.getimg =  function() {
    
 sharedConn.connection.vcard.get(function(stanza) {
@@ -101,8 +130,24 @@ sharedConn.connection.vcard.get(function(stanza) {
 
 
 
-.controller('UserProfileCtrl', function($scope,$state,$cordovaSQLite,$ionicPopup,sharedConn,$rootScope,UserProfile,sqlContact) {
+.controller('UserProfileCtrl', function($scope,$state,$cordovaSQLite,$ionicPopup,sharedConn,$rootScope,UserProfile,sqlContact,$timeout, $stateParams,ionicMaterialMotion, ionicMaterialInk) {
 	var jid = UserProfile.getTo();
+
+	  // Set Motion
+    $timeout(function() {
+        ionicMaterialMotion.slideUp({
+            selector: '.slide-up'
+        });
+    }, 300);
+
+    $timeout(function() {
+        ionicMaterialMotion.fadeSlideInRight({
+            startVelocity: 3000
+        });
+    }, 700);
+
+    // Set Ink
+    ionicMaterialInk.displayEffect();
 	
 $scope.contact = sqlContact.loadContacts(jid);
 	
@@ -159,9 +204,10 @@ $scope.contact = sqlContact.loadContacts(jid);
 
 })
 
-.controller('loginCtrl', function($scope , sharedConn,$state) {
+.controller('loginCtrl', function($scope , sharedConn,$state,$timeout,ionicMaterialInk) {
 
-	var XMPP_DOMAIN  = 'xvamp'; // Domain we are going to be connected to.
+
+	var XMPP_DOMAIN  = 'pelephone.co.il'; // Domain we are going to be connected to.
 	var xmpp_user    = 'admin';     // xmpp user name
 	var xmpp_pass    = 'admin';
 	
@@ -175,7 +221,7 @@ $scope.contact = sqlContact.loadContacts(jid);
 		
 		window.localStorage.setItem("userjid", user.jid);
 		window.localStorage.setItem("userpass", user.pass);
-		window.localStorage.setItem("XMPP_DOMAIN", XMPP_DOMAIN);
+		window.localStorage.setItem("XMPP_DOMAIN", 'pelephone.co.il');
 		sharedConn.login(user.jid,XMPP_DOMAIN,user.pass);
 	}
 	
@@ -191,8 +237,13 @@ $scope.contact = sqlContact.loadContacts(jid);
 })
 
 
-.controller('chatDetailsCtrl', function($scope, $timeout, $ionicScrollDelegate,sharedConn,ChatDetails,UserProfile,sql,$state) {
+.controller('chatDetailsCtrl', function($scope, $timeout, $ionicScrollDelegate,sharedConn,ChatDetails,UserProfile,sql,$state,$stateParams,ionicMaterialMotion, $timeout,ionicMaterialInk,$ionicHistory) {
 
+  $scope.myGoBack = function() {
+    $ionicHistory.goBack();
+  };
+	
+	
   $scope.hideTime = true;
   $scope.data = {};
   $scope.myId = sharedConn.getBareJid( sharedConn.getConnectObj().jid );
@@ -320,8 +371,6 @@ $scope.contact = sqlContact.loadContacts(jid);
   $scope.closeKeyboard = function() {
     // cordova.plugins.Keyboard.close();
   };
-
-
 
 
 });

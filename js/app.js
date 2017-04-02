@@ -5,16 +5,12 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives','ngCordova','epicTabsHider'])  // <--include ngCordova
+angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives','ngCordova','ionic-material', 'ionMdInput'])  // <--include ngCordova
 
 .run(function($ionicPlatform, $cordovaSQLite, $rootScope) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
-
-
-
-
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
@@ -23,9 +19,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-
-
-    if(window.plugins !== undefined) {
+	  if(window.plugins !== undefined) {
 
 
     window.plugins.OneSignal
@@ -34,15 +28,16 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
       .endInit();
 
   }
-	//SQL lite database
+
+	//SQL lite database 
 	if (window.cordova) {
       $rootScope.db = $cordovaSQLite.openDB({ name: "chats_local.db" }); //device
     }else{
       $rootScope.db = window.openDatabase("chats_local.db", '1', 'xmpp_chat', 1024 * 1024 * 100); // browser
     }
-
+	
 	$cordovaSQLite.execute($rootScope.db,"CREATE TABLE IF NOT EXISTS chats(id INTEGER primary key, to_id TEXT, from_id TEXT, message TEXT, timestamp DATE DEFAULT (datetime('now','localtime')) )");
 	$cordovaSQLite.execute($rootScope.db,"CREATE TABLE IF NOT EXISTS contacts(jid TEXT primary key,  name TEXT, orgunit TEXT,phone TEXT,photo TEXT,title TEXT, timestamp DATE DEFAULT (datetime('now','localtime')) )");
-
+  
   });
 })

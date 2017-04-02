@@ -1,12 +1,22 @@
 angular.module('app.routes', [])
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider ) {
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
-  $stateProvider
+ 
+ // Turn off caching for demo simplicity's sake
+   //$ionicConfigProvider.views.maxCache(1);
+
+    
+    // Turn off back button text
+  //  $ionicConfigProvider.backButton.previousTitleText(false);
+    
+
+
+ $stateProvider
     
   
 
@@ -55,7 +65,9 @@ angular.module('app.routes', [])
   .state('tabsController', {
     url: '/page1',
     templateUrl: 'templates/tabsController.html',
-    abstract:true
+    controller : 'TabCtrl'
+	
+	
   })
 
   .state('login', {
@@ -67,7 +79,7 @@ angular.module('app.routes', [])
   .state('tabsController.chatDetails', {
     url: '/page6',
     views: {
-      'tab2': {
+      'tab1': {
         templateUrl: 'templates/chatDetails.html',
         controller: 'chatDetailsCtrl'
       }

@@ -1,13 +1,24 @@
-<ion-view   id="page6"   hide-tabs-bar  >
-<ion-nav-bar  class="bar-positive">
-    <ion-nav-back-button></ion-nav-back-button>
-  </ion-nav-bar>
+
+
+<ion-view cache-view="false"   id="page6"   hide-tabs >
+
+
+	 <ion-nav-buttons side="left"> 
+   <button menu-toggle="left" ng-click="myGoBack()" class="button-clear icon ion-chevron-left "  ></button>
+ </ion-nav-buttons> 
+
+ 
+ 
+
+	
+	
 
   	<ion-nav-title>
 
 			<p ng-click="goprofile(to_id)">{{to_id}} </p>
 
-</ion-nav-title>		
+</ion-nav-title>
+	
 	<ion-content class="content-stable"    on-swipe-left="hideTime = false"  on-swipe-right="hideTime = true">
 
 		 

@@ -1,5 +1,16 @@
-<ion-view style="" id="page2" title="Chats" cache-view="false">
-    <ion-content class="has-header" >
+<ion-view id="page2" title="Chats" >
+    
+	 <ion-nav-buttons side="left"> <!-- left -->
+   <button menu-toggle="left" class="button-clear  button-icon icon ion-navicon" ></button>
+ </ion-nav-buttons>
+
+ <ion-nav-buttons side="right"> <!-- right -->
+   <button menu-toggle="left" class="button-clear button-icon icon ion-navicon " ></button>
+ </ion-nav-buttons>
+	
+	
+	
+	<ion-content >
 	
 		<label style="" class="item item-input">
             <i class="icon ion-search placeholder-icon"></i>
@@ -9,7 +20,7 @@
 		
 		
 		<ion-list style="">
-		 <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chatitem in chatlogs | filter:search" type="item-text-wrap" ng-click="chatD(chatitem)">
+		 <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chatitem in chatlogs | filter:search" type="item-text-wrap" ng-click="chatD(chatitem.id)">
 			 <img data-ng-src="data:image/png;base64,{{chatitem.face.photo}}" data-err-src="images/png/avatar.png"/>
 			
 			

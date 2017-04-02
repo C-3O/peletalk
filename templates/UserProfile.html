@@ -1,43 +1,51 @@
-<ion-view style="" id="page10" title="UserProfile">
-    <ion-content class="has-header" padding="true">
+<ion-view title="UserProfile">
+     <ion-content ng-class="{expanded:$scope.isExpanded}">
 	
-        <form style="" class="list">
-     <img data-ng-src="data:image/png;base64,{{contact.photo}}" data-err-src="images/png/avatar.png"/>
-			
-			
-		  <ion-list style="">
-		 <ion-item class="item-remove-animate item-avatar item-icon-right"  type="item-text-wrap" >
-			
-			<h2>{{contact.name}}</h2>
-			
-			
-		  </ion-item>
-		   <ion-item class="item-remove-animate item-avatar item-icon-right"  type="item-text-wrap" >
-			
-			<h2>{{contact.title}}</h2>
-			
-			
-		  </ion-item>
-		   <ion-item class="item-remove-animate item-avatar item-icon-right"  type="item-text-wrap" >
-			
-			<h2>{{contact.orgunit}}</h2>
-			
-			
-		  </ion-item>
-		   <ion-item class="item-remove-animate item-avatar item-icon-right"  type="item-text-wrap" >
-			
-			<h2>{{contact.jid}}</h2>
-			
-			
-		  </ion-item> <ion-item class="item-remove-animate item-avatar item-icon-right"  type="item-text-wrap" >
-			
-			<h2>{{contact.phone}}</h2>
-			
-			
-		  </ion-item>
-		  
-		</ion-list>		
+	
+	  <div class="hero slide-up" style="background-image: url('img/profile-bg.jpg');">
+            <div class="content">
+			 
+                 <img class="avatar"  data-ng-src="data:image/png;base64,{{contact.photo}}" data-err-src="images/png/avatar.png"/>
+                <h3><a class="light">{{contact.name}}</a></h3>
+                <h4>{{contact.jid}}</h4>
+            </div>
+        </div>
 		
-        </form>
+		
+	
+     
+   
+			
+			
+		 
+		  
+		    <div class="list ">
+		
+			<p class="item item-avatar item-icon-right">{{contact.name}}</p>
+			
+	
+			
+			<p class="item item-avatar item-icon-right">{{contact.title}}</p>
+			
+			
+		
+			
+			<p class="item item-avatar item-icon-right">{{contact.orgunit}}</p>
+			
+		
+			
+			<p class="item item-avatar item-icon-right">{{contact.jid}}</p>
+			
+			
+	
+			
+			<p class="item item-avatar item-icon-right">{{contact.phone}}</p>
+			
+			
+		  </div>
+		  
+		
+		
+       
     </ion-content>
 </ion-view>

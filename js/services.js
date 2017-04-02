@@ -314,15 +314,25 @@ function onNotificationReceived(msg)
 
 	//On connect XMPP
 	SharedConnObj.onConnect=function(status){
-		if (status == Strophe.Status.CONNECTING) {
+		if (status === Strophe.Status.CONNECTING) {
 			console.log('Strophe is connecting.');
-		} else if (status == Strophe.Status.CONNFAIL) {
+
+} else if (status === Strophe.Status.AUTHENTICATING) {
+            console.log ('status AUTHENTICATING');
+        } else if (status === Strophe.Status.AUTHFAIL) {
+            console.log ('status AUTHFAIL');
+        } else if (status === Strophe.Status.ATTACHED){
+            console.log ('status ATTACHED');
+
+
+}
+		else if (status === Strophe.Status.CONNFAIL) {
 			console.log('Strophe failed to connect.');
-		} else if (status == Strophe.Status.DISCONNECTING) {
+		} else if (status === Strophe.Status.DISCONNECTING) {
 			console.log('Strophe is disconnecting.');
-		} else if (status == Strophe.Status.DISCONNECTED) {
+		} else if (status === Strophe.Status.DISCONNECTED) {
 			console.log('Strophe is disconnected.');
-		} else if (status == Strophe.Status.CONNECTED) {
+		} else if (status === Strophe.Status.CONNECTED) {
 				SharedConnObj.connection.addHandler(SharedConnObj.onMessage, null, 'message', null, null ,null);
 				SharedConnObj.connection.send($pres().tree());
 				SharedConnObj.loggedIn=true;
