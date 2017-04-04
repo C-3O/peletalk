@@ -1,28 +1,31 @@
 <ion-view  title="Settings">
        <ion-content ng-class="{expanded:$scope.isExpanded}">
-	
-	
+
+
 	<div class="hero slide-up" style="background-image: url('img/profile-bg.jpg');">
             <div class="content">
-			 
+
                  <img class="avatar"  data-ng-src="data:image/png;base64,{{userimage}}" data-err-src="images/png/avatar.png"/>
                <!--  <h3><a class="light">{{contact.name}}</a></h3>
                 <h4>{{contact.jid}}</h4> -->
             </div>
         </div>
-		
-		
+
+
 		 <div class="list">
-      
-    
+
+
 			<ion-toggle style="" toggle-class="toggle-positive" ng-checked="true">Enable Friends</ion-toggle>
-			
+
 			<button ng-click="getimg()" id="logout-button" class="button button-positive button-block ">Get Image</button>
-			
+
 			<button ng-click="logout()" id="logout-button" class="button button-positive button-block ">Log Out</button>
-				<button ng-click="DeleteDB()" id="Delete-button" class="button button-assertive button-block ">Delete DB</button>		
-				
-				<button ng-click="DeleteDBContact()" id="Delete-button" class="button button-assertive button-block ">Delete Contacts</button>	
+				<button ng-click="DeleteDB()" id="Delete-button" class="button button-assertive button-block ">Delete DB</button>
+
+				<button ng-click="DeleteDBContact()" id="Delete-Contacts-button" class="button button-assertive button-block ">Delete Contacts</button>
+
+	<button ng-click="createdb()" id="createdb-button" class="button button-assertive button-block ">createdb </button>
+
       </div
     </ion-content>
 </ion-view>
