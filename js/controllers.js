@@ -71,8 +71,8 @@ sharedConn.connection.vcard.get(function(stanza) {
   {
 
 
-    console.log("windows.cordova" + windows.cordova);
-  	
+    console.log("windows.cordova" );
+
         $rootScope.db = $cordovaSQLite.openDB({ name: "chats_local.db" ,location:'default'}); //device
 
 
