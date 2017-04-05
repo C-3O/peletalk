@@ -216,7 +216,7 @@ $scope.contact = sqlContact.loadContacts(jid);
 
 })
 
-.controller('loginCtrl', function($scope , sharedConn,$state,$timeout,ionicMaterialInk,$cordovaSQLite,$rootScope) {
+.controller('loginCtrl', function($scope , sharedConn,$state,$timeout,ionicMaterialInk) {
 
 
 	var XMPP_DOMAIN  = 'pelephone.co.il'; // Domain we are going to be connected to.
@@ -236,11 +236,6 @@ $scope.contact = sqlContact.loadContacts(jid);
 		window.localStorage.setItem("XMPP_DOMAIN", 'pelephone.co.il');
 		sharedConn.login(user.jid,XMPP_DOMAIN,user.pass);
 
-    $rootScope.db = $cordovaSQLite.openDB({ name: "chats_local.db" ,location:'default'}); //device
-
-
-$cordovaSQLite.execute($rootScope.db,"CREATE TABLE IF NOT EXISTS chats(id INTEGER primary key, to_id TEXT, from_id TEXT, message TEXT, timestamp DATE DEFAULT (datetime('now','localtime')) )");
-$cordovaSQLite.execute($rootScope.db,"CREATE TABLE IF NOT EXISTS contacts(jid TEXT primary key,  name TEXT, orgunit TEXT,phone TEXT,photo TEXT,title TEXT, timestamp DATE DEFAULT (datetime('now','localtime')) )");
 
 	}
 
