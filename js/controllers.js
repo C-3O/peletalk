@@ -216,7 +216,7 @@ $scope.contact = sqlContact.loadContacts(jid);
 
 })
 
-.controller('loginCtrl', function($scope , sharedConn,$state,$timeout,ionicMaterialInk,$cordovaSQLite,$cordovaSQLite) {
+.controller('loginCtrl', function($scope , sharedConn,$state,$timeout,ionicMaterialInk,$cordovaSQLite,$rootScope) {
 
 
 	var XMPP_DOMAIN  = 'pelephone.co.il'; // Domain we are going to be connected to.
