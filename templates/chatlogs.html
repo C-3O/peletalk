@@ -21,10 +21,11 @@
 		
 		<ion-list style="">
 		 <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chatitem in chatlogs | filter:search" type="item-text-wrap" ng-click="chatD(chatitem.id)">
-			 <img data-ng-src="data:image/png;base64,{{chatitem.face.photo}}" data-err-src="images/png/avatar.png"/>
+			 <img data-ng-src="{{chatitem.face}}" data-err-src="img/ben.png"/>
 			
 			
 			<h2>{{chatitem.name}}</h2>
+		
 			<p>{{chatitem.lastText}}</p>
 			<i class="icon ion-chevron-right icon-accessory"></i>
 

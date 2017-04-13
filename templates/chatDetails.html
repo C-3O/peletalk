@@ -14,15 +14,23 @@
 	
 
   	<ion-nav-title>
+	
+	<h1 class="title withSubtitle" ng-click="goprofile(to_id)">
+{{to_id}}
+<span ng-show="typing" class="isSubtitle">typing .... </span>
+</h1>
 
-			<p ng-click="goprofile(to_id)">{{to_id}} </p>
 
+
+			
+			
+				
+			
 </ion-nav-title>
 	
 	<ion-content class="content-stable"    on-swipe-left="hideTime = false"  on-swipe-right="hideTime = true">
 
 		 
-				 
 		<div ng-repeat="message in messages"
            ng-class="{other: message.userId != myId}"
            class="messages">

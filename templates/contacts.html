@@ -18,7 +18,7 @@
         <ion-list style="">
 		 <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in chats" type="item-text-wrap" ng-click="chatD(chat.jid)">
 			
-			  <img data-ng-src="data:image/png;base64,{{chat.photo}}" data-err-src="images/png/avatar.png"/>
+			  <img data-ng-src="{{chat.photo}}" data-err-src="img/ben.png"/>
 			
 			<h2>{{chat.name}}</h2>
 			<p>{{chat.title}}</p>
