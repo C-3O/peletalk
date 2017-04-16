@@ -33,7 +33,7 @@ angular.module('app.controllers', [])
 
 .controller('settingsCtrl', function($scope,$state,$cordovaSQLite,$ionicPopup,sharedConn,$rootScope, $timeout,ionicMaterialMotion, ionicMaterialInk) {
 	
-	
+	$scope.sppversion = $rootScope.version;
 	$scope.userimage ='';
 	sharedConn.connection.vcard.get(function(stanza) {
             var $vCard = $(stanza).find("vCard");
