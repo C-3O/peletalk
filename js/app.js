@@ -1,6 +1,6 @@
 // Ionic Starter App
 
-// angular.module is a global place for creating, registering and retrieving Angular modules
+// angular.module is a global place for creating, registering and retrieving Angular modulesopenDatabase
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
@@ -29,18 +29,18 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
 
   }
 
-	//SQL lite database 
-	
+	//SQL lite database
+
 	console.log (window.cordova);
-	/* if (window.cordova) {
-		
+if (window.cordova) {
+
       $rootScope.db = $cordovaSQLite.openDB({ name: "chats_local.db" }); //device
-    }else{ */
+    }else{
       $rootScope.db = window.openDatabase("chats_local.db", '1', 'xmpp_chat', 1024 * 1024 * 100); // browser
-    // }
-	
+    }
+
 	$cordovaSQLite.execute($rootScope.db,"CREATE TABLE IF NOT EXISTS chats(id INTEGER primary key, to_id TEXT, from_id TEXT, message TEXT, timestamp DATE DEFAULT (datetime('now','localtime')) )");
 	$cordovaSQLite.execute($rootScope.db,"CREATE TABLE IF NOT EXISTS contacts(jid TEXT primary key,  name TEXT, orgunit TEXT,phone TEXT,photo TEXT,title TEXT, timestamp DATE DEFAULT (datetime('now','localtime')) )");
-  
+
   });
 })
