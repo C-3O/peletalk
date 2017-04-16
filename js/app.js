@@ -29,17 +29,18 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
 
   }
 
-	//SQL lite database
-
-
-	if (window.cordova) {
-      $rootScope.db = $cordovaSQLite.openDB({ name: "chats_local.db" ,location:'default'}); //device
-    }else{
+	//SQL lite database 
+	
+	console.log (window.cordova);
+	/* if (window.cordova) {
+		
+      $rootScope.db = $cordovaSQLite.openDB({ name: "chats_local.db" }); //device
+    }else{ */
       $rootScope.db = window.openDatabase("chats_local.db", '1', 'xmpp_chat', 1024 * 1024 * 100); // browser
-    }
-
+    // }
+	
 	$cordovaSQLite.execute($rootScope.db,"CREATE TABLE IF NOT EXISTS chats(id INTEGER primary key, to_id TEXT, from_id TEXT, message TEXT, timestamp DATE DEFAULT (datetime('now','localtime')) )");
 	$cordovaSQLite.execute($rootScope.db,"CREATE TABLE IF NOT EXISTS contacts(jid TEXT primary key,  name TEXT, orgunit TEXT,phone TEXT,photo TEXT,title TEXT, timestamp DATE DEFAULT (datetime('now','localtime')) )");
-
+  
   });
 })
