@@ -34,7 +34,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
 	console.log (window.cordova);
 if (window.cordova) {
 
-      $rootScope.db = $cordovaSQLite.openDB({ name: "chats_local.db" }); //device
+      $rootScope.db = $cordovaSQLite.openDB({ name: "chats_local.db" ,location:'default'}); //device
     }else{
       $rootScope.db = window.openDatabase("chats_local.db", '1', 'xmpp_chat', 1024 * 1024 * 100); // browser
     }
