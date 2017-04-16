@@ -24,6 +24,14 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
 
     window.plugins.OneSignal
       .startInit("caf57c31-8f35-4015-b530-dc20386d84c5", "951844355160")
+      .handleNotificationReceived(function(jsonData) {
+   alert("Notification received:\n" + JSON.stringify(jsonData));
+   console.log('Did I receive a notification: ' + JSON.stringify(jsonData));
+ })
+ .handleNotificationOpened(function(jsonData) {
+   alert("Notification opened:\n" + JSON.stringify(jsonData));
+   console.log('didOpenRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+ })
       .inFocusDisplaying(window.plugins.OneSignal.OSInFocusDisplayOption.Notification)
       .endInit();
 
