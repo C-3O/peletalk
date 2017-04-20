@@ -39,11 +39,19 @@ angular.module('app.routes', [])
       }
     }
   })
-
+.state('tabsController.groups', {
+    url: '/page7',
+    views: {
+      'tab3': {
+        templateUrl: 'templates/groups.html',
+        controller: 'groupsCtrl'
+      }
+    }
+  })
   .state('tabsController.settings', {
     url: '/page4',
     views: {
-      'tab3': {
+      'tab4': {
         templateUrl: 'templates/settings.html',
         controller: 'settingsCtrl'
       }
@@ -60,7 +68,15 @@ angular.module('app.routes', [])
     }
   })
   
-  
+   .state('tabsController.GroupProfile', {
+    url: '/page11',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/GroupProfile.html',
+        controller: 'GroupProfileCtrl'
+      }
+    }
+  })
 
   .state('tabsController', {
     url: '/page1',
@@ -85,6 +101,18 @@ angular.module('app.routes', [])
       }
     }
   })
+  
+  .state('tabsController.GroupchatDetails', {
+    url: '/page6',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/GroupchatDetails.html',
+        controller: 'GroupchatDetailsCtrl'
+      }
+    }
+  })
+  
+  //GroupchatDetails.html
   
   .state('register', {
     url: '/page7',

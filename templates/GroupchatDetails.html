@@ -30,14 +30,16 @@
 	
 	<ion-content class="content-stable"    on-swipe-left="hideTime = false"  on-swipe-right="hideTime = true"   style="background-image:url('img/bg.jpg');" >
 
-		<div class="speech-wrapper">  
-		<div ng-repeat="message in messages"   ng-class="{alt: message.userId != myId}"   class="bubble">
-		   
-		       <div class="txt">
-           <p class="message">{{ message.text }}</p>
-         </div>
-    ``<div   ng-class="{alt: message.userId != myId}" class="bubble-arrow"></div>
- 			
+		<div class="speech-wrapper"> 
+		<div ng-repeat="message in messages"            ng-class="{alt: message.userId != myId}"           class="bubble">
+    <div class="txt">
+      <p class="name alt" ng-show="{alt: message.userId != myId}" >{{ message.userId }}</p>
+      <p class="message">{{ message.text }}</p>
+      
+    </div>
+    <div ng-class="{alt: message.userId != myId}" class="bubble-arrow"></div>
+ 
+			
 			<!--
 			<div class="message" ng-class="{'slide-right': hideTime, '': !hideTime}">
 				<span >{{ message.text }}</span>
@@ -48,7 +50,28 @@
 			-->
 
 		</div>
-		</div>
+		
+		
+		
+ 
+  <!--  Speech Bubble alternative -->
+  
+   <!-- 
+   
+  <div class="bubble alt">
+  
+  
+    <div class="txt">
+     
+      <p class="message">Nice... this will work great for my new project.</p>
+   
+    </div>
+    <div class="bubble-arrow alt"></div>
+  </div>
+  
+  
+  -->
+</div>
 
 	</ion-content>
 

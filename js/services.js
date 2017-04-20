@@ -64,6 +64,50 @@ UserProfileObj.getimage = function(){
 }])
 
 
+.factory('GroupProfile', ['sharedConn','$rootScope', function(sharedConn,$rootScope){
+	
+	var onResult = function(stanza) {
+    };
+	
+	GroupProfileObj={};
+	GroupProfileObj.setTo = function(to_id){
+		GroupProfileObj.to=to_id;
+		sharedConn.connection.vcard.get(function(stanza) {
+			//console.log("stanza : " + stanza);
+            var $vCard = $(stanza).find("vCard");
+            var img = $vCard.find('BINVAL').text();
+			var  orgunit = $vCard.find('ORGUNIT').text();
+			var  title = $vCard.find('TITLE').text();
+            var type = $vCard.find('TYPE').text();
+           GroupProfileObj.userimage  = img;
+		   GroupProfileObj.title = title;
+		    GroupProfileObj.orgunit = orgunit;
+		
+        },
+                          to_id);
+
+		
+		
+		
+		
+		
+	
+	}
+	
+GroupProfileObj.getimage = function(){
+		return GroupProfileObj.userimage;
+	}
+	GroupProfileObj.getTo = function(){
+		return GroupProfileObj.to;
+	}
+	GroupProfileObj.getName = function(){
+		return GroupProfileObj.name;
+	}
+	return GroupProfileObj;	
+}])
+
+
+
 .factory('Chats', ['sharedConn','$rootScope','$state','sqlContact', function(sharedConn,$rootScope,$state,sqlContact){
 	
 	ChatsObj={};
@@ -129,11 +173,42 @@ function onNotificationReceived(msg)
 			var  orgunit = $vCard.find('ORGUNIT').text();
 			var  title = $vCard.find('TITLE').text();
             var type = $vCard.find('TYPE').text();
-			 var phone = $vCard.find('NUMBER').text();
+			
+			
+			var zphone2 = [];
+			 var xphone = $vCard.find('NUMBER').filter(function() {var str =  $(this).text(); str = str.replace(/\s/g, ''); 
+			 str = str.replace("<NUMBER>",'');
+			 str = str.replace("</NUMBER>",'');
+			 zphone2.push(str);
+			 return  str;})
+			 var phone = "";
+			 var phone1 = "";
+			 var phone2 = "";
+			for (var i = 0, len = zphone2.length; i < len; i++) {
+				
+				switch(i) {
+    case 0:
+      phone=  zphone2[i];
+        break;
+    case 1:
+      phone1=  zphone2[i];
+        break;
+		 case 2:
+    phone2 =    zphone2[i];
+        break;
+    default:
+      phone =  zphone2[i];
+}
+				
+				
+};
+
+			 
+			 
 			  var email = $vCard.find('USERID').text();
 			    var name = $vCard.find('GIVEN').text();
          		console.log(email);
-			sqlContact.insertContact({		jid: email,		name:name,		orgunit:orgunit,		phone:phone,		photo: img,		title: title	});	
+			sqlContact.insertContact({jid: email,	name:name,orgunit:orgunit,phone:phone,phone1:phone1,phone2:phone2,photo: img,title: title});	
 	
 	
 			
@@ -276,7 +351,7 @@ function onNotificationReceived(msg)
 }])
 
 
-.factory('sharedConn', ['$ionicPopup','$state','$rootScope','sql',function($ionicPopup, $state, $rootScope, sql ){
+.factory('sharedConn', ['$ionicPopup','$state','$rootScope','sql','sqlGroups',function($ionicPopup, $state, $rootScope, sql,sqlGroups ){
 	
 	 var SharedConnObj={};
 /* 	Strophe.log = function (lvl, msg) { 
@@ -306,7 +381,26 @@ function onNotificationReceived(msg)
         return str;
      };
 		 
+	
+ SharedConnObj.getResourceFromJid=function(s){	
+		var str=Strophe.getResourceFromJid(s);
+        return str;
+     };
+	
 		 
+	SharedConnObj.GetRoomOcc = function(roomid){
+	SharedConnObj.connection.muc.queryOccupants(roomid,
+	
+	function(d){
+		console.log(d);
+	}
+	,null);
+	};	
+		 
+	SharedConnObj.JoinRoom = function(roomid){
+	SharedConnObj.connection.muc.join( roomid,SharedConnObj.getConnectObj().authzid);
+	};	
+		 	 
 	 
 	 //--------------------------------------***END HELPER FUNCTIONS***----------------------------------------------------------
 	 	
@@ -316,7 +410,7 @@ function onNotificationReceived(msg)
 		SharedConnObj.connection = new Strophe.Connection( SharedConnObj.BOSH_SERVICE , {'keepalive': true});  // We initialize the Strophe connection.
 		SharedConnObj.connection.connect(jid+'@'+host, pass , SharedConnObj.onConnect);
 		
-	/*	SharedConnObj .connection.xmlOutput = function (data) { 
+		SharedConnObj .connection.xmlOutput = function (data) { 
 		
 		console.log("OUTXML:"); 
 		console.log( data); 
@@ -326,7 +420,7 @@ function onNotificationReceived(msg)
 		SharedConnObj .connection.rawInput = function (data) { console.log(" IN: " + data); };
 		SharedConnObj .connection.rawOuput = function (data) { console.log("OUT: " + data); };
 		
-		*/
+		
 		
 		
 		
@@ -357,7 +451,9 @@ function onNotificationReceived(msg)
 				console.log("Strophe.Status.CONNECTED");		
 			
 				SharedConnObj.loggedIn=true;
-			SharedConnObj.connection.send($pres());		
+			SharedConnObj.connection.send($pres());	
+	
+	
 					SharedConnObj.connection.addHandler(SharedConnObj.onMessage, null, 'message', null, null ,null);
 				SharedConnObj.connection.addHandler(SharedConnObj.onInvite, 'jabber:x:conference');
 				SharedConnObj.connection.addHandler(SharedConnObj.on_subscription_request, null, "presence", "subscribe");
@@ -388,7 +484,7 @@ function onNotificationReceived(msg)
 		   confirmPopup.then(function(res) {
 			 if(res) {
 			   SharedConnObj.connection.send($pres({ to: msg.getAttribute("from") , type: "subscribed" }));
-			   
+			   sqlGroups.insertGroup(msg.getAttribute("from"));
 			   push_map( msg.getAttribute("from") ); //helper
 			 } else {
 			   SharedConnObj.connection.send($pres({ to: msg.getAttribute("from") , type: "unsubscribed" }));
@@ -399,8 +495,8 @@ function onNotificationReceived(msg)
 		   
 		
 		
-		SharedConnObj.connection.muc.join('ti_room@conference.pelephone.co.il','oren@pelephone.co.il');
-		//$rootScope.$broadcast('msgRecievedBroadcast', msg );
+		SharedConnObj.connection.muc.join( msg.getAttribute("from"),SharedConnObj.getConnectObj().authzid);
+		$rootScope.$broadcast('msgRecievedBroadcast', msg );
 		return true;
 	};
 	
@@ -444,7 +540,21 @@ function onNotificationReceived(msg)
 		
 	} 
 		
-		
+		else if (type == "groupchat" && elems.length > 0) {
+    var body = elems[0];
+	var textMsg = Strophe.getText(body);
+	xfrom =msg.getAttribute('from');
+    var room = Strophe.unescapeNode(Strophe.getNodeFromJid(xfrom));
+    var nick = Strophe.getResourceFromJid(xfrom);
+	sql.insertChat({
+			to_id: Strophe.getBareJidFromJid(xfrom),
+			from_id: Strophe.getResourceFromJid(xfrom),
+			message: textMsg
+		});
+	
+	
+    console.log('GROUP CHAT: I got a message from ' + nick + ': ' + Strophe.getText(body) + ' in room: ' + room);
+  }
 		
 		///////////////////////
 		
@@ -615,6 +725,36 @@ function onNotificationReceived(msg)
 
 	}
 	
+	
+	
+	sqlObj.showRoomChats=function(roomid){
+		
+		sqlObj.messages=[];
+	  
+		var query = "SELECT * FROM chats where (to_id = ? )";
+		$cordovaSQLite.execute($rootScope.db, query,[roomid]).then(function(res) {
+			if(res.rows.length > 0) {
+				for (var i=0 ; i<res.rows.length; i=i+1) {
+					sqlObj.messages.push({
+					  userId: res.rows.item(i).from_id,
+					  text: res.rows.item(i).message,
+					  time: res.rows.item(i).timestamp
+					});
+				}				
+					
+			} else {
+				console.log("No message found");
+			}
+		}, function (err) {
+			console.error(err);
+		});
+
+		return sqlObj.messages;  
+
+	}
+	
+	
+	
 	return sqlObj;
 	
 }])
@@ -632,7 +772,7 @@ function onNotificationReceived(msg)
 			sqlContactObj.Contacts = {};
 
 			//Bad implementation 	
-        var query = "SELECT jid,name,title,photo,phone,orgunit FROM contacts where jid like ? ";
+        var query = "SELECT jid,name,title,photo,phone,phone1,phone2,orgunit FROM contacts where jid like ? ";
 		
 		
 		console.log(my);
@@ -650,6 +790,8 @@ function onNotificationReceived(msg)
 						 sqlContactObj.Contacts.title= res.rows.item(i).title;
 						 sqlContactObj.Contacts.photo= res.rows.item(i).photo;
 						 sqlContactObj.Contacts.phone=res.rows.item(i).phone;
+						  sqlContactObj.Contacts.phone1=res.rows.item(i).phone1;
+						   sqlContactObj.Contacts.phone2=res.rows.item(i).phone2;
 						 sqlContactObj.Contacts.orgunit=res.rows.item(i).orgunit;
 					
                  }				
@@ -671,7 +813,7 @@ function onNotificationReceived(msg)
 			sqlContactObj.AllContacts = [];
 
 			//Bad implementation 	
-        var query = "SELECT jid,name,title,photo,phone,orgunit FROM contacts";
+        var query = "SELECT jid,name,title,photo,phone,phone1,phone2,orgunit FROM contacts";
 		
 		
 		
@@ -720,11 +862,12 @@ function onNotificationReceived(msg)
 	sqlContactObj.insertContact = function(r) {
 		console.log(r);
 	
-		var query = "INSERT  INTO contacts (jid,name,orgunit,phone,photo,title) VALUES (?,?,?,?,?,?) ";
-		$cordovaSQLite.execute( $rootScope.db, query, [r.jid, r.name, r.orgunit,r.phone,r.photo,r.title]).then(function(res) {
+		var query = "INSERT  INTO contacts (jid,name,orgunit,phone,phone1,phone2,photo,title) VALUES (?,?,?,?,?,?,?,?) ";
+		$cordovaSQLite.execute( $rootScope.db, query, [r.jid, r.name, r.orgunit,r.phone,r.phone1,r.phone2,r.photo,r.title]).then(function(res) {
 			console.log("Contact Added");
 		}, function (err) {
 			console.log("DB Error");
+			console.log(err);
 		});
     }
 	
@@ -742,6 +885,191 @@ function onNotificationReceived(msg)
 	return sqlContactObj;
 	
 }])
+
+
+
+
+
+
+.factory('sqlGroups', ['$rootScope','$cordovaSQLite', function($rootScope,$cordovaSQLite){
+
+	sqlGroupObj={};
+	sqlGroupObj.Contacts={};
+	sqlGroupObj.AllContacts=[];
+	
+	
+	//Load Contacts
+  	sqlGroupObj.loadContacts = function(my) {
+			sqlGroupObj.Contacts = {};
+
+			//Bad implementation 	
+        var query = "SELECT groupjid  FROM groups where groupjid like ? ";
+		
+		
+		console.log(my);
+        $cordovaSQLite.execute($rootScope.db,query,[my]).then(function(res) {
+					
+            if(res.rows.length > 0) {
+				
+				
+				for (var i=0 ; i<res.rows.length; i=i+1) {
+					
+				
+				 
+						 sqlGroupObj.group.groupjid = res.rows.item(i).groupjid;
+						
+					
+                 }				
+				
+            } else {
+                console.log("No results found");
+            }
+        }, function (err) {
+            console.error(err);
+		});
+			
+		console.log(sqlContactObj.Contacts);
+		return sqlContactObj.Contacts;
+    } 
+	
+	
+	
+		sqlGroupObj.loadAllGroups = function() {
+			sqlGroupObj.AllGroups = [];
+
+			//Bad implementation 	
+        var query = "SELECT groupjid,title  FROM groups";
+		
+		
+		
+        $cordovaSQLite.execute($rootScope.db,query).then(function(res) {
+					
+            if(res.rows.length > 0) {
+				
+				
+				for (var i=0 ; i<res.rows.length; i=i+1) {
+				/*	
+					var photo = res.rows.item(i).photo;
+					if (photo.length ===0)
+					{
+						photo = "img/ben.png";
+					}
+					else 
+					{
+							photo = "data:image/png;base64," + res.rows.item(i).photo;
+					}
+					*/
+				sqlGroupObj.AllGroups.push({
+				 
+						 groupjid : res.rows.item(i).groupjid  ,
+						
+					//	name:  res.rows.item(i).name,
+						 title: res.rows.item(i).title
+/*						 photo: photo,
+						phone:res.rows.item(i).phone,
+						orgunit:res.rows.item(i).orgunit */
+				});
+                 }				
+				
+            } else {
+                console.log("No results found");
+            }
+        }, function (err) {
+            console.error(err);
+		});
+			
+		console.log(sqlGroupObj.AllGroups);
+		return sqlGroupObj.AllGroups;
+    } 
+	
+	
+	
+	//Insert Chat   to_id,from_id,message,
+	sqlGroupObj.insertGroup = function(r) {
+		console.log(r);
+	
+		var query = "INSERT  INTO groups (groupjid) VALUES (?) ";
+		$cordovaSQLite.execute( $rootScope.db, query, [r]).then(function(res) {
+			console.log("Group Added");
+		}, function (err) {
+			console.log("Group DB Error");
+			console.log(err);
+		});
+    }
+	
+	sqlGroupObj.EmptyGroups = function() {
+		
+		var query = "Delete From groups ";
+		$cordovaSQLite.execute( $rootScope.db, query).then(function(res) {
+			console.log("Delete all");
+		}, function (err) {
+			console.log("DB Error");
+		});
+    }
+	
+	
+	return sqlGroupObj;
+	
+}])
+
+
+
+
+
+.factory('sqlGroupsConnector', ['$rootScope','$cordovaSQLite','sharedConn', function($rootScope,$cordovaSQLite,sharedConn){
+
+	sqlGroupsConnectorObj={};
+
+		
+	//Load Contacts
+  
+		sqlGroupsConnectorObj.loadAllGroups = function() {
+	sqlGroupsConnectorObj.AllGroups = [];
+
+			//Bad implementation 	
+        var query = "SELECT groupjid,title  FROM groups";
+		
+		
+        $cordovaSQLite.execute($rootScope.db,query).then(function(res) {
+					
+            if(res.rows.length > 0) {
+				
+				
+				for (var i=0 ; i<res.rows.length; i=i+1) {
+									
+					sharedConn.JoinRoom(res.rows.item(i).groupjid);
+				sqlGroupsConnectorObj.AllGroups.push({
+				 
+						 groupjid : res.rows.item(i).groupjid  ,
+						
+				
+						 title: res.rows.item(i).title
+/*						 photo: photo,
+						phone:res.rows.item(i).phone,
+						orgunit:res.rows.item(i).orgunit */
+				});
+                 }				
+				
+            } else {
+                console.log("No results found");
+            }
+        }, function (err) {
+            console.error(err);
+		});
+			
+		console.log(sqlGroupsConnectorObj.AllGroups);
+		return sqlGroupsConnectorObj.AllGroups;
+    } 
+	
+	
+	
+	
+	
+	
+	return sqlGroupsConnectorObj;
+	
+}])
+
 
 
 

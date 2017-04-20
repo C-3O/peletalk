@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives','ngCordova','ionic-material', 'ionMdInput'])  // <--include ngCordova
 
-.run(function($ionicPlatform, $cordovaSQLite, $rootScope,$window, $cordovaAppVersion) {
+.run(function($ionicPlatform, $cordovaSQLite, $rootScope,$window, $cordovaAppVersion,$ionicViewSwitcher,$ionicHistory) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -56,7 +56,14 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
      }
 	
 	$cordovaSQLite.execute($rootScope.db,"CREATE TABLE IF NOT EXISTS chats(id INTEGER primary key, to_id TEXT, from_id TEXT, message TEXT, timestamp DATE DEFAULT (datetime('now','localtime')) )");
-	$cordovaSQLite.execute($rootScope.db,"CREATE TABLE IF NOT EXISTS contacts(jid TEXT primary key,  name TEXT, orgunit TEXT,phone TEXT,photo TEXT,title TEXT, timestamp DATE DEFAULT (datetime('now','localtime')) )");
+	$cordovaSQLite.execute($rootScope.db,"CREATE TABLE IF NOT EXISTS contacts(jid TEXT primary key,  name TEXT, orgunit TEXT,phone TEXT,phone1 TEXT,phone2 TEXT,photo TEXT,title TEXT, timestamp DATE DEFAULT (datetime('now','localtime')) )");
+	$cordovaSQLite.execute($rootScope.db,"CREATE TABLE IF NOT EXISTS groups(groupjid TEXT primary key,title TEXT, timestamp DATE DEFAULT (datetime('now','localtime')) )");
   
+  
+  $rootScope.goBackState = function(){
+  $ionicViewSwitcher.nextDirection('back');
+  $ionicHistory.goBack(); 
+}
+
   });
 })

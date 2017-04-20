@@ -180,6 +180,42 @@ $scope.contact = sqlContact.loadContacts(jid);
 })
 
 
+.controller('GroupProfileCtrl', function($scope,$state,$cordovaSQLite,$ionicPopup,sharedConn,$rootScope,GroupProfile,sqlContact,$timeout, $stateParams,ionicMaterialMotion, ionicMaterialInk) {
+	var jid = GroupProfile.getTo();
+	console.log(jid);
+sharedConn.GetRoomOcc(jid);
+	  // Set Motion
+    $timeout(function() {
+        ionicMaterialMotion.slideUp({
+            selector: '.slide-up'
+        });
+    }, 300);
+
+    $timeout(function() {
+        ionicMaterialMotion.fadeSlideInRight({
+            startVelocity: 3000
+        });
+    }, 700);
+
+    // Set Ink
+    ionicMaterialInk.displayEffect();
+	
+$scope.contact = sqlContact.loadContacts(jid);
+	
+	
+
+
+
+  $scope.to_id =  GroupProfile.getTo();
+ $scope.userimage =GroupProfile.getimage();
+
+
+	
+	
+
+})
+
+
 .controller('contactsCtrl', function($scope,Chats,$state,ChatDetails,sqlContact) {
  
 	 var contacts   = 	Chats.allRoster();
@@ -206,6 +242,37 @@ $scope.contact = sqlContact.loadContacts(jid);
 	  };
 	  
 })
+
+
+
+.controller('groupsCtrl', function($scope,Chats,$state,ChatDetails,sqlGroups,sqlGroupsConnector) {
+ 
+	
+	 
+	 $scope.chats =   sqlGroupsConnector.loadAllGroups();
+	   $scope.showface = function(jid){
+		   
+		  var face = sqlContact.loadContacts(jid).photo ;
+		  return face
+	   }
+	  $scope.remove = function(chat) {
+		Chats.removeRoster(chat);
+	  };
+	
+	  
+	  $scope.chatD=function(to_id){ 
+		ChatDetails.setTo(to_id);
+		$state.go('tabsController.GroupchatDetails', {}, {location: "replace", reload: true});
+	  };
+	  
+	  
+	  $scope.add = function(add_jid){
+		Chats.addNewRosterContact(add_jid);
+	  };
+	  
+})
+
+
 
 .controller('chatlogsCtrl', function($scope,sql,sharedConn, ChatDetails, $state) {
 	var myid= sharedConn.getBareJid( sharedConn.getConnectObj().jid );
@@ -288,6 +355,8 @@ $scope.contact = sqlContact.loadContacts(jid);
 
   	$scope.sendMsg=function(to,body){
 		var to_jid  = Strophe.getBareJidFromJid(to);
+		
+		
 		var timestamp = new Date().getTime();
 		var reqChannelsItems = $msg({id:timestamp, to:to_jid , type: 'chat' })
 								   .c("body").t(body);
@@ -365,6 +434,157 @@ $scope.contact = sqlContact.loadContacts(jid);
 			console.log($scope.messages);
 			console.log('Message recieved from ' + from + ': ' + textMsg);
 		}
+		
+	}
+	
+	else
+	{
+		var stoptypping  = msg.getElementsByTagName('paused');
+													
+		if (stoptypping.length > 0 ) {
+		$scope.$apply(function() {  	$scope.typing=false;		})		
+		}else {
+			$scope.$apply(function() {  	$scope.typing=true;		})	
+		}
+	}
+		
+  }
+  
+  
+   $scope.$on('msgRecievedBroadcast', function(event, data) {
+		$scope.messageRecieve(data);
+    });
+
+
+  $scope.inputUp = function() {
+    if (isIOS) $scope.data.keyboardHeight = 216;
+    $timeout(function() {
+      $ionicScrollDelegate.scrollBottom(true);
+    }, 300);
+
+  };
+
+  $scope.inputDown = function() {
+    if (isIOS) $scope.data.keyboardHeight = 0;
+    $ionicScrollDelegate.resize();
+  };
+
+  $scope.closeKeyboard = function() {
+    // cordova.plugins.Keyboard.close();
+  };
+
+
+})
+
+
+
+.controller('GroupchatDetailsCtrl', function($scope, $timeout, $ionicScrollDelegate,sharedConn,ChatDetails,GroupProfile,sql,$state,$stateParams,ionicMaterialMotion, $timeout,ionicMaterialInk,$ionicHistory) {
+
+  $scope.myGoBack = function() {
+    $ionicHistory.goBack();
+  };
+	
+	
+  $scope.hideTime = true;
+  $scope.data = {};
+  $scope.myId = sharedConn.getBareJid( sharedConn.getConnectObj().jid );
+  $scope.to_id=ChatDetails.getTo();
+ $scope.typing = false;
+  //Loading Previous Conversation
+  $scope.messages = sql.showRoomChats( $scope.to_id );
+    $ionicScrollDelegate.scrollBottom(true);
+	  var isIOS = ionic.Platform.isIOS(); 
+	
+   $scope.goprofile=function(to_id){ 
+		console.log(to_id);
+		GroupProfile.setTo(to_id);
+		$state.go('tabsController.GroupProfile', {}, {location: "replace", reload: true});
+	  };
+	  
+
+  	$scope.sendMsg=function(to,body){
+		var to_jid  = Strophe.getBareJidFromJid(to);
+		
+		
+		var timestamp = new Date().getTime();
+		var reqChannelsItems = $msg({id:timestamp, to:to_jid , type: 'groupchat' })
+								   .c("body").t(body);
+		sharedConn.getConnectObj().send(reqChannelsItems.tree());
+	
+	};
+  
+  
+
+  $scope.showSendMessage = function() {
+	  
+	$scope.sendMsg($scope.to_id,$scope.data.message);  
+
+    var d = new Date();
+    d = d.toLocaleTimeString().replace(/:\d+ /, ' ');
+	
+	//Adding the message to UI
+    $scope.messages.push({
+      userId: $scope.myId,
+      text: $scope.data.message,
+      time: d
+    });
+	
+	
+	//SQL -- MSG SEND
+	
+	/*	
+	sql.insertChat({
+		to_id: $scope.to_id,
+		from_id:$scope.myId,
+		message: $scope.data.message
+	});	
+*/
+    delete $scope.data.message;
+    $ionicScrollDelegate.scrollBottom(true);
+
+  };
+  
+  
+  $scope.messageRecieve=function(msg){	
+  
+	//  var to = msg.getAttribute('to');
+	var from = msg.getAttribute('from');
+	from=sharedConn.getResourceFromJid(from);
+	
+	var type = msg.getAttribute('type');
+	var elems = msg.getElementsByTagName('body');
+  
+	var d = new Date();
+    d = d.toLocaleTimeString().replace(/:\d+ /, ' ');
+
+	if (type == "groupchat" && elems.length > 0 && from != $scope.myId) {
+		  
+		var body = elems[0];
+		var textMsg = Strophe.getText(body);
+		
+	/*	
+		//SQL -- MSG RECIEVE
+		sql.insertChat({
+			to_id: $scope.myId,
+			from_id: from,
+			message: textMsg
+		});
+		*/
+		
+		
+			
+			$scope.messages.push({
+			  userId: from,
+			  text: textMsg,
+			  time: d
+			});
+			
+			$ionicScrollDelegate.scrollBottom(true);
+			$scope.$apply();
+			
+			console.log($scope.messages);
+			console.log('Message recieved from ' + from + ': ' + textMsg);
+		
 		
 	}
 	
