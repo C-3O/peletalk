@@ -51,15 +51,26 @@ angular.module('app.routes', [])
   .state('tabsController.settings', {
     url: '/page4',
     views: {
-      'tab4': {
+      'tab5': {
         templateUrl: 'templates/settings.html',
         controller: 'settingsCtrl'
       }
     }
   })
   
+  .state('tabsController.search', {
+    url: '/page9',
+    views: {
+      'tab4': {
+        templateUrl: 'templates/search.html',
+        controller: 'searchCtrl'
+      }
+    }
+  })
+  
    .state('tabsController.UserProfile', {
     url: '/page10',
+	 cache: false,
     views: {
       'tab3': {
         templateUrl: 'templates/UserProfile.html',
@@ -70,6 +81,7 @@ angular.module('app.routes', [])
   
    .state('tabsController.GroupProfile', {
     url: '/page11',
+	cache:false,
     views: {
       'tab1': {
         templateUrl: 'templates/GroupProfile.html',
@@ -103,7 +115,7 @@ angular.module('app.routes', [])
   })
   
   .state('tabsController.GroupchatDetails', {
-    url: '/page6',
+    url: '/page106',
     views: {
       'tab1': {
         templateUrl: 'templates/GroupchatDetails.html',

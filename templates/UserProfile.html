@@ -1,47 +1,31 @@
 <ion-view title="UserProfile">
-     <ion-content >
-	
-	
-	  <div class="hero slide-up" style="background-image: url('img/profile-bg.jpg');">
+
+ <ion-nav-bar class="bar-positive">  
+	    <ion-nav-buttons side="left"> 
+           <a ng-click="goBackState()" class="button button-icon icon ion-ios-arrow-back"></a>  
+        </ion-nav-buttons>  
+  
+ </ion-nav-bar> 
+    
+	<ion-content >
+		  <div class="hero slide-up" style="background-image: url('img/profile-bg.jpg');">
             <div class="content">
 			 
-                 <img class="avatar"  data-ng-src="data:image/png;base64,{{contact.photo}}" data-err-src="images/png/avatar.png"/>
+                 <img class="avatar"  data-ng-src="data:image/png;base64,{{contact.photo}}" data-err-src="img/Group-icon.png"/>
                 <h3><a class="light">{{contact.name}}</a></h3>
                 <h4>{{contact.jid}}</h4>
             </div>
         </div>
-		
-		
-	
-     
-   
-			
-			
-		 
-		  
+ 	  
 		    <div class="list ">
 		
 			<p class="item item-avatar item-icon-right">{{contact.name}}</p>
-			
-	
-			
 			<p class="item item-avatar item-icon-right">{{contact.title}}</p>
-			
-			
-		
-			
 			<p class="item item-avatar item-icon-right">{{contact.orgunit}}</p>
-			
-		
-			
 			<p class="item item-avatar item-icon-right">{{contact.jid}}</p>
-			
-			
-	
-			
 			<p class="item item-avatar item-icon-right">{{contact.phone}}</p>
-			
-			
+			<p class="item item-avatar item-icon-right">{{contact.phone1}}</p>
+			<p class="item item-avatar item-icon-right">{{contact.phone2}}</p>
 		  </div>
 		  
 		

@@ -16,7 +16,7 @@
 
 	
         <ion-list style="">
-		 <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in chats" type="item-text-wrap" ng-click="chatD(chat.groupjid)">
+		 <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in chats" type="item-text-wrap" ng-click="chatG(chat)">
 			
 			  <img src="img/Group-icon.png"/>
 			    <!-- <img data-ng-src="{{chat.photo}}" data-err-src="img/Group-icon.png"/>  -->
@@ -25,7 +25,7 @@
 			<p>{{chat.title}}</p>
 			<i class="icon ion-chevron-right icon-accessory"></i>
 
-			<ion-option-button class="button-assertive" ng-click="remove(chat)">
+			<ion-option-button class="button-assertive" ng-click="remove(chat.groupjid)">
 			  Delete
 			</ion-option-button>
 			

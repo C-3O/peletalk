@@ -1,41 +1,24 @@
-
-
-<ion-view cache-view="false"   id="page6"   hide-tabs >
-
-
-	 <ion-nav-buttons side="left"> 
-
-     <a ng-click="goBackState()" class="button button-clear  button-icon icon ion-ios-arrow-back"></a>
- </ion-nav-buttons> 
-
+ 
+<ion-view id="page106"   hide-tabs> 
+    
+   <ion-nav-bar class="bar-positive">  
+	  <ion-nav-buttons side="left">  
+            <a ng-click="goBackState()" class="button button-icon icon ion-ios-arrow-back"></a> 
+       </ion-nav-buttons>  
   
-
-	
-	
-
-  	<ion-nav-title>
-	
-	<h1 class="title withSubtitle" ng-click="goprofile(to_id)">
-{{to_id}}
-<span ng-show="typing" class="isSubtitle">typing .... </span>
-</h1>
-
-
-
-			
-			
-				
-			
-</ion-nav-title>
-	
-	<ion-content class="content-stable"    on-swipe-left="hideTime = false"  on-swipe-right="hideTime = true"   style="background-image:url('img/bg.jpg');" >
+ </ion-nav-title>  
+ </ion-nav-bar>  
+	<ion-content class="content-stable"  on-swipe-left="hideTime = false"  on-swipe-right="hideTime = true"   style="background-image:url('img/bg.jpg');" >
 
 		<div class="speech-wrapper"> 
-		<div ng-repeat="message in messages"            ng-class="{alt: message.userId != myId}"           class="bubble">
+	
+		<div ng-repeat="message in messages"  ng-class="{alt: message.userId != myId}"   class="bubble">
     <div class="txt">
-      <p class="name alt" ng-show="{alt: message.userId != myId}" >{{ message.userId }}</p>
+      <p class="name" ng-if="message.userId != myId" >{{ message.userId }}</p>
       <p class="message">{{ message.text }}</p>
-      
+	  
+	 
+       <span class="timestamp">{{ message.time | date:'mediumTime' }}</span>
     </div>
     <div ng-class="{alt: message.userId != myId}" class="bubble-arrow"></div>
  
@@ -51,7 +34,7 @@
 
 		</div>
 		
-		
+		</div>
 		
  
   <!--  Speech Bubble alternative -->
@@ -74,15 +57,14 @@
 </div>
 
 	</ion-content>
-
+<a class="icon ion-plus" /> 
 	<ion-footer-bar keyboard-attach class="bar-stable item-input-inset">
+		<!-- <a class="icon ion-plus" /> -->
 		<label class="item-input-wrapper">
 			<input type="text" placeholder="Type your message" on-return="showSendMessage(); closeKeyboard()" ng-model="data.message" on-focus="inputUp()" on-blur="inputDown()" />
 		</label>
-		<button class="button button-clear" ng-click="showSendMessage()">
-        Send
-		</button>
-	</ion-footer-bar>
+		<a class="icon ion-android-send"   ng-click="showSendMessage()" />
+      	</ion-footer-bar>
 
 </ion-view>
 

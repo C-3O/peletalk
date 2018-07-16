@@ -9,6 +9,18 @@ angular.module('app.services', [])
 	}
 	
 
+	ChatDetailsObj.setGroupTo = function(to_id){
+		ChatDetailsObj.to=to_id.groupjid;
+		ChatDetailsObj.title = to_id.title;
+	}
+	
+	ChatDetailsObj.GetGroupTo = function(){
+		return ChatDetailsObj.to;
+	}
+	
+	ChatDetailsObj.GetGroupTitle = function(){
+		return ChatDetailsObj.title;
+	} 
 	ChatDetailsObj.getTo = function(){
 		return ChatDetailsObj.to;
 	}
@@ -29,26 +41,7 @@ angular.module('app.services', [])
 	UserProfileObj={};
 	UserProfileObj.setTo = function(to_id){
 		UserProfileObj.to=to_id;
-		sharedConn.connection.vcard.get(function(stanza) {
-			//console.log("stanza : " + stanza);
-            var $vCard = $(stanza).find("vCard");
-            var img = $vCard.find('BINVAL').text();
-			var  orgunit = $vCard.find('ORGUNIT').text();
-			var  title = $vCard.find('TITLE').text();
-            var type = $vCard.find('TYPE').text();
-           UserProfileObj.userimage  = img;
-		   UserProfileObj.title = title;
-		    UserProfileObj.orgunit = orgunit;
 		
-        },
-                          to_id);
-
-		
-		
-		
-		
-		
-	
 	}
 	
 UserProfileObj.getimage = function(){
@@ -66,31 +59,12 @@ UserProfileObj.getimage = function(){
 
 .factory('GroupProfile', ['sharedConn','$rootScope', function(sharedConn,$rootScope){
 	
-	var onResult = function(stanza) {
-    };
+	/*var onResult = function(stanza) {
+    };*/
 	
 	GroupProfileObj={};
 	GroupProfileObj.setTo = function(to_id){
 		GroupProfileObj.to=to_id;
-		sharedConn.connection.vcard.get(function(stanza) {
-			//console.log("stanza : " + stanza);
-            var $vCard = $(stanza).find("vCard");
-            var img = $vCard.find('BINVAL').text();
-			var  orgunit = $vCard.find('ORGUNIT').text();
-			var  title = $vCard.find('TITLE').text();
-            var type = $vCard.find('TYPE').text();
-           GroupProfileObj.userimage  = img;
-		   GroupProfileObj.title = title;
-		    GroupProfileObj.orgunit = orgunit;
-		
-        },
-                          to_id);
-
-		
-		
-		
-		
-		
 	
 	}
 	
@@ -108,12 +82,13 @@ GroupProfileObj.getimage = function(){
 
 
 
-.factory('Chats', ['sharedConn','$rootScope','$state','sqlContact', function(sharedConn,$rootScope,$state,sqlContact){
+.factory('Chats', ['sharedConn','$rootScope','$state','sqlContact','sqlGroups', function(sharedConn,$rootScope,$state,sqlContact,sqlGroups){
 	
 	ChatsObj={};
+ChatsObj.Contact=[];
 
 	connection=sharedConn.getConnectObj();
-	
+	connection.muc.init(connection);
 
 
 connection.addHandler(onNotificationReceived, null, "message", "chat", null,  null);
@@ -202,37 +177,20 @@ function onNotificationReceived(msg)
 				
 				
 };
-
-			 
-			 
-			  var email = $vCard.find('USERID').text();
-			    var name = $vCard.find('GIVEN').text();
-         		console.log(email);
-			sqlContact.insertContact({jid: email,	name:name,orgunit:orgunit,phone:phone,phone1:phone1,phone2:phone2,photo: img,title: title});	
-	
-	
-			
-		
-        },
-                         $(this).attr("jid"));
-								
-								
-								
-			//////////////////////////////////					
-						
-								
-				/////////////////////////////////////////////				
-								ChatsObj.roster.push({
-									id: $(this).attr("jid"),
-									name:  $(this).attr("name") || $(this).attr("jid"),
-									lastText: 'Available to Chat',
-									face: ''
+	  var email = $(this).attr("jid").text();
+      var name = $vCard.find('GIVEN').text();
+      console.log($(this).attr("jid"));
+	  sqlContact.insertContact({jid: email,	name:name,orgunit:orgunit,phone:phone,phone1:phone1,phone2:phone2,photo: img,title: title});	
+	  },
+      $(this).attr("jid"));
+							ChatsObj.roster.push({
+							id: $(this).attr("jid"),
+							name:  $(this).attr("name") || $(this).attr("jid"),
+							lastText: 'Available to Chat',
+							face: ''
 								});
-				
 							});						
-						
 						});	
-							
 					});
 					// set up presence handler and send initial presence
 					connection.addHandler(
@@ -263,18 +221,14 @@ function onNotificationReceived(msg)
 					connection.addHandler(
 						//on recieve update roster iq
 						function(iq) {
-							
 							console.log(iq);
-							
-							if (!iq || iq.length == 0)
+									if (!iq || iq.length == 0)
 								return;
 							
 							//jquery load data after loading the page.This function updates data after jQuery loading
 							$rootScope.$apply(function() {
-								
-								$(iq).find("item").each(function(){
-									
-									//roster update via Client 1(ie this client) accepting request
+										$(iq).find("item").each(function(){
+											//roster update via Client 1(ie this client) accepting request
 									if($(this).attr("subscription")=="from"){
 										
 										ChatsObj.roster.push({
@@ -325,6 +279,60 @@ function onNotificationReceived(msg)
 	}
  
  
+ //load from server
+	ChatsObj.loadcontactfromserver = function(jid)
+	{
+		
+		sharedConn.connection.vcard.get(function(stanza) {
+		//	console.log("stanza : " + stanza);
+            var $vCard = $(stanza).find("vCard");
+            var img = $vCard.find('BINVAL').text();
+			var  orgunit = $vCard.find('ORGUNIT').text();
+			var  title = $vCard.find('TITLE').text();
+            var type = $vCard.find('TYPE').text();
+			
+			
+			var zphone2 = [];
+			 var xphone = $vCard.find('NUMBER').filter(function() {var str =  $(this).text(); str = str.replace(/\s/g, ''); 
+			 str = str.replace("<NUMBER>",'');
+			 str = str.replace("</NUMBER>",'');
+			 zphone2.push(str);
+			 return  str;})
+			 var phone = "";
+			 var phone1 = "";
+			 var phone2 = "";
+			for (var i = 0, len = zphone2.length; i < len; i++) {
+				
+				switch(i) {
+    case 0:
+      phone=  zphone2[i];
+        break;
+    case 1:
+      phone1=  zphone2[i];
+        break;
+		 case 2:
+    phone2 =    zphone2[i];
+        break;
+    default:
+      phone =  zphone2[i];
+				
+				}
+	  
+	   ChatsObj.Contact.jid = jid;
+						 ChatsObj.Contact.name=   $vCard.find('FN').text();
+						 ChatsObj.Contact.title=  title;
+						 ChatsObj.Contact.photo= img;
+						ChatsObj.Contact.phone=phone;
+						 ChatsObj.Contact.phone1= phone1;
+						  ChatsObj.Contact.phone2= phone2;
+						ChatsObj.Contact.orgunit= orgunit;
+						 
+				}
+				
+		},jid)		 
+			return ChatsObj.Contact;			 
+	  
+				}
 
 	ChatsObj.removeRoster= function(chat) {
 		ChatsObj.roster.splice(ChatsObj.roster.indexOf(chat), 1);
@@ -343,24 +351,107 @@ function onNotificationReceived(msg)
 		console.log(to_id);
 		connection.send($pres({ to: to_id , type: "subscribe" }));		
 	}
-		
 	
+
+
+function room_msg_handler(a, b, c) {
+  console.log('MUC: room_msg_handler');
+  return true;
+}
+
+function room_pres_handler(a, b, c) {
+  console.log('MUC: room_pres_handler');
+  return true;
+}
+
+function onCreateRoomSuccess(stanza) {
+	console.log('MUC: onCreateRoomSuccess: '+stanza);
+	return true;
+}
+
+function onCreateRoomError(stanza) {
+	console.log('MUC: onCreateRoomError: '+stanza);
+	return true;
+}
+
+function exitRoom(room) {
+  console.log("exitRoom: " + room);
+  //TBD
+}
+
+	ChatsObj.listRooms =function () {
+		var server = "conference.peletalk1-vvw.pelephone.co.il";
+  console.log("listRooms: " + server);
+  connection.muc.listRooms(server, function(msg) {
+    console.log("listRooms - success: ");
+    $(msg).find('item').each(function() {
+      var jid = $(this).attr('jid'),
+        name = $(this).attr('name');
+      console.log('	>room: ' + name + ' (' + jid + ')');
+    });
+  }, function(err) {
+    console.log("listRooms - error: " + err);
+  });
+}
+
+
+	ChatsObj.CreateNewRoom =function(to_id){
+		// console.log(to_id);
+		// connection.muc.init(connection);
+		
+		var descr = "testroom";
+		var subject = "testroom";
+		 var roomName = to_id + "@conference.peletalk1-vvw.pelephone.co.il";
+								   
+	 
+ connection.muc.join(roomName, connection.authzid, room_msg_handler, room_pres_handler);
+ var config = {"muc#roomconfig_publicroom": "1", "muc#roomconfig_persistentroom": "1"};
+ if (descr)  config["muc#roomconfig_roomdesc"] = descr;
+ if (subject)  config["muc#roomconfig_subject"] = subject;
+connection.muc.createConfiguredRoom(roomName, config, onCreateRoomSuccess, onCreateRoomError);
+
+				 connection.send($pres({ to: roomName , type: "subscribed" }));
+			   sqlGroups.insertGroup(roomName);
+			   //push_map( msg.getAttribute("from") ); //helper
+
+
+
+	}
+	
+		ChatsObj.LeaveRoom =function(to_id){
+		// console.log(to_id);
+		// connection.muc.init(connection);
+		
+		 
+		 var roomName = to_id;
+								   
+	 
+ var xxxxxx = connection.muc.leave(roomName, connection.authzid, room_msg_handler, "bye");
+ 
+			   sqlGroups.DeleteGroup(roomName);
+			   //push_map( msg.getAttribute("from") ); //helper
+
+
+
+	}
+	
+		
 	return ChatsObj;
   
 
 }])
 
 
-.factory('sharedConn', ['$ionicPopup','$state','$rootScope','sql','sqlGroups',function($ionicPopup, $state, $rootScope, sql,sqlGroups ){
+.factory('sharedConn', ['$ionicPopup','$state','$rootScope','sql','sqlGroups','$q',function($ionicPopup, $state, $rootScope, sql,sqlGroups,$q ){
 	
 	 var SharedConnObj={};
-/* 	Strophe.log = function (lvl, msg) { 
-	console.log("lvl: " + lvl);
-	console.log("LOG: " + msg);
+ 	// Strophe.log = function (lvl, msg) { 
+	// console.log("lvl: " + lvl);
+	// console.log("LOG: " + msg);
 
 
-	};
- */
+	// };
+
 	 // SharedConnObj.BOSH_SERVICE = 'http://peletalk1-vvw.pelephone.co.il:7070/http-bind/';  
 	 SharedConnObj.BOSH_SERVICE = 'http://msso.pelephone.co.il/http-bind/';  
 	 SharedConnObj.connection   = null;    // The main Strophe connection object.
@@ -399,6 +490,7 @@ function onNotificationReceived(msg)
 		 
 	SharedConnObj.JoinRoom = function(roomid){
 	SharedConnObj.connection.muc.join( roomid,SharedConnObj.getConnectObj().authzid);
+	SharedConnObj.connection.muc.queryOccupants( roomid,null,null);
 	};	
 		 	 
 	 
@@ -417,8 +509,8 @@ function onNotificationReceived(msg)
 		
 		
 		};
-		SharedConnObj .connection.rawInput = function (data) { console.log(" IN: " + data); };
-		SharedConnObj .connection.rawOuput = function (data) { console.log("OUT: " + data); };
+		SharedConnObj.connection.rawInput = function (data) { console.log(" IN: " + data); };
+		SharedConnObj.connection.rawOuput = function (data) { console.log("OUT: " + data); };
 		
 		
 		
@@ -455,18 +547,20 @@ function onNotificationReceived(msg)
 	
 	
 					SharedConnObj.connection.addHandler(SharedConnObj.onMessage, null, 'message', null, null ,null);
+				/*	SharedConnObj.connection.addHandler(SharedConnObj.onSubject, null, 'message', "groupchat", null ,null);
+											 addHandler(handler,ns,name,type,id,from,options	) */
+
 				SharedConnObj.connection.addHandler(SharedConnObj.onInvite, 'jabber:x:conference');
 				SharedConnObj.connection.addHandler(SharedConnObj.on_subscription_request, null, "presence", "subscribe");
+				SharedConnObj.connection.si_filetransfer.addFileHandler(SharedConnObj.fileHandler);
+				SharedConnObj.connection.ibb.addIBBHandler(SharedConnObj.ibbHandler);
+
+				
 				if(window.plugins !== undefined) {
-
-
-			 window.plugins.OneSignal.sendTag("User", SharedConnObj.getConnectObj().authzid);
-
-			};
-
+					window.plugins.OneSignal.sendTag("User", SharedConnObj.getConnectObj().authzid);
+				};
 				$state.go('tabsController.chatlogs', {}, {location: "replace", reload: true});
-		}
-	};
+				}};
 
 	
 	
@@ -509,10 +603,16 @@ function onNotificationReceived(msg)
 		
 		
 		/////////////////////////
-		var to = msg.getAttribute('to');
+		
 		var xfrom = msg.getAttribute('from');
-
+		var to = msg.getAttribute('to'); 
+		if (!to)
+		{
 	to=SharedConnObj.getBareJid(to);
+		}else
+		{
+			to= SharedConnObj.getConnectObj().authzid;
+		}
 		xfrom=SharedConnObj.getBareJid(xfrom);
 	 
 	var type = msg.getAttribute('type');
@@ -525,8 +625,7 @@ function onNotificationReceived(msg)
 		  
 		var body = elems[0];
 		var textMsg = Strophe.getText(body);
-		
-		
+	
 		//SQL -- MSG RECIEVE
 		
 		sql.insertChat({
@@ -534,12 +633,8 @@ function onNotificationReceived(msg)
 			from_id: xfrom,
 			message: textMsg
 		});
-		
-		
-		
-		
 	} 
-		
+
 		else if (type == "groupchat" && elems.length > 0) {
     var body = elems[0];
 	var textMsg = Strophe.getText(body);
@@ -555,28 +650,38 @@ function onNotificationReceived(msg)
 	
     console.log('GROUP CHAT: I got a message from ' + nick + ': ' + Strophe.getText(body) + ' in room: ' + room);
   }
-		
-		///////////////////////
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+  
+  
+  
+  	var type = msg.getAttribute('type');
+	var elems = msg.getElementsByTagName('subject');
+  
+	var d = new Date();
+    d = d.toLocaleTimeString().replace(/:\d+ /, ' ');
+	
+	
+		if (type == "groupchat" && elems.length > 0) {
+    var body = elems[0];
+	var textMsg = Strophe.getText(body);
+	xfrom =msg.getAttribute('from');
+ 
+	sqlGroups.UpdateGroup(textMsg,xfrom)
+	//to add register function
+	}
 		
 		
 		$rootScope.$broadcast('msgRecievedBroadcast', msg );
 		$rootScope.$apply();
 		return true;
+	};
+	
+	SharedConnObj.onSubject=function (msg) {
+	
+		console.log("onSubject ");
+		console.log(msg);
+		
+	
+	
 	};
 	
 	SharedConnObj.register=function (jid,pass,name) {
@@ -590,6 +695,82 @@ function onNotificationReceived(msg)
 		SharedConnObj.connection.disconnect();
 	};
 	
+	
+	SharedConnObj.GetSearch = function(name)
+	
+	{
+		 var deferred = $q.defer();
+	var iq = $iq({
+     type: 'get',
+    id: 'search4',
+     to: 'search.peletalk1-vvw.pelephone.co.il'
+ }).c('query', {xmlns: 'jabber:iq:search'});
+connection.sendIQ(iq, function (stanza) {
+    // using _ ([underscore](http://underscorejs.org/)) here.
+    // the users will be your final list
+    var users = _.map(stanza.getElementsByTagName("item"), function (item) {
+        return {
+			
+			
+            jid: $('[var="jid"]', item).text(),
+            name: $('[var="Username"]', item).text()
+        }
+    });
+	   deferred.resolve(users);
+},function(err){ 
+   deferred.reject(err)
+}
+);
+return deferred.promise;
+	};
+	
+	
+	SharedConnObj.search = function(who)
+	{
+		
+	 var deferred = $q.defer();
+		
+			 var iq = $iq({
+       type: 'set',
+      id: 'search4',
+to: 'search.peletalk1-vvw.pelephone.co.il'
+ })
+ .c('query', {xmlns: 'jabber:iq:search'})
+ .c('x', {xmlns: 'jabber:x:data', type:'submit'})
+ .c('field', {type: 'hidden', var:'FORM_TYPE'})
+ .c('value','jabber:iq:search').up().up()
+ .c('field', {var: 'search',type:"text-single"})
+ .c('value',  who  ).up().up()
+ .c('field', {var: 'Username', type:"boolean"})
+ .c('value','1').up().up()
+ .c('field', {var: 'Name', type:"boolean"})
+ .c('value','1').up().up()
+
+ 
+
+
+connection.sendIQ(iq, function (stanza) {
+    // using _ ([underscore](http://underscorejs.org/)) here.
+    // the users will be your final list
+    var users = _.map(stanza.getElementsByTagName("item"), function (item) {
+        return {
+			
+			
+            jid: $('[var="jid"]', item).text(),
+			Username: $('[var="Username"]', item).text(),
+			Email: $('[var="Email"]', item).text(),
+            Name: $('[var="Name"]', item).text()
+        }
+    });
+	   deferred.resolve(users);
+},function(err){ 
+   deferred.reject(err)
+}
+);
+return deferred.promise;
+	};
+	
+	
 	//Helper Function------------------------------
 	var accepted_map={};  //store all the accpeted jid
 	function is_element_map(jid){
@@ -602,6 +783,176 @@ function onNotificationReceived(msg)
 	//--------------------------------------------
 	
 	
+	//File Helper ----------------------------------------------
+	
+	// file
+var sid = null;
+var chunksize;
+var data;
+var file = null;
+var aFileParts, mimeFile, fileName;
+
+function handleFileSelect(evt) {
+	var files = evt.target.files; // FileList object
+    file = files[0];
+}
+
+
+
+ SharedConnObj.sendFile = function(file,to) {
+	//var to = $('#to').get(0).value;
+	var filename = file.name;
+	var filesize = file.size;
+	var mime = file.type;
+	chunksize = filesize;
+	sid = connection._proto.sid;
+	console.log('sendFile: to=' + to);
+	// send a stream initiation
+	connection.si_filetransfer.send(to, sid, filename, filesize, mime, function(err) {
+		fileTransferHandler(file, err);
+	});
+}
+
+SharedConnObj.fileHandler = function(from, sid, filename, size, mime) {
+  // received a stream initiation
+  // save to data and be prepared to receive the file.
+  console.log("fileHandler: from=" + from + ", file=" + filename + ", size=" + size + ", mime=" + mime);
+  mimeFile = mime;
+  fileName = filename;
+  return true;
+}
+
+ SharedConnObj.ibbHandler = function(type, from, sid, data, seq) {
+  console.log("ibbHandler: type=" + type + ", from=" + from);
+  switch (type) {
+    case "open":
+      // new file, only metadata
+      aFileParts = [];
+      break;
+    case "data":
+      console.log("	>seq=" + seq);
+      console.log("	>data=" + data);
+      aFileParts.push(data);
+      // data
+      break;
+    case "close":
+      // and we're done
+      var data = "data:" + mimeFile + ";base64,";
+      for (var i = 0; i < aFileParts.length; i++) {
+        data += aFileParts[i].split(",")[1];
+      }
+      console.log("	>data=" + data);
+      console.log("	>data.len=" + data.length);
+      if (mimeFile.indexOf("png") > 0) {
+        var span = document.createElement('span');
+        span.innerHTML = ['<img class="thumb" src="', data, '" title=""/>'].join('');
+      } else {
+        var span = document.createElement('span');
+        span.innerHTML = ['<a class="link" download="' + fileName + '" href="', data, '" title="">download</a>'].join('');
+      }
+      document.getElementById('list').insertBefore(span, null);
+    default:
+      throw new Error("shouldn't be here.")
+  }
+  return true;
+}
+
+function fileTransferHandler(file, err) {
+  console.log("fileTransferHandler: err=" + err);
+  if (err) {
+    return console.log(err);
+  }
+  var to = $('#to').get(0).value;
+  chunksize = file.size;
+
+  chunksize = 20 * 1024;
+
+  // successfully initiated the transfer, now open the band
+  connection.ibb.open(to, sid, chunksize, function(err) {
+    console.log("ibb.open: err=" + err);
+    if (err) {
+      return console.log(err);
+    }
+
+
+    readChunks(file, function(data, seq) {
+      sendData(to, seq, data);
+    });
+  });
+}
+
+function readAll(file, cb) {
+    var reader = new FileReader();
+
+    // If we use onloadend, we need to check the readyState.
+    reader.onloadend = function(evt) {
+      if (evt.target.readyState == FileReader.DONE) { // DONE == 2
+        cb(evt.target.result);
+      }
+    };
+
+    reader.readAsDataURL(file);
+}
+
+function readChunks(file, callback) {
+  var fileSize = file.size;
+  var chunkSize = 20 * 1024; // bytes
+  var offset = 0;
+  var block = null;
+  var seq = 0;
+
+  var foo = function(evt) {
+    if (evt.target.error === null) {
+      offset += chunkSize; //evt.target.result.length;
+      seq++;
+      callback(evt.target.result, seq); // callback for handling read chunk
+    } else {
+      console.log("Read error: " + evt.target.error);
+      return;
+    }
+    if (offset >= fileSize) {
+      console.log("Done reading file");
+      return;
+    }
+
+    block(offset, chunkSize, file);
+  }
+
+  block = function(_offset, length, _file) {
+    console.log("_block: length=" + length + ", _offset=" + _offset);
+    var r = new FileReader();
+    var blob = _file.slice(_offset, length + _offset);
+    r.onload = foo;
+    r.readAsDataURL(blob);
+  }
+
+  block(offset, chunkSize, file);
+}
+
+function sendData(to, seq, data) {
+  // stream is open, start sending chunks of data
+  connection.ibb.data(to, sid, seq, data, function(err) {
+    console.log("ibb.data: err=" + err);
+    if (err) {
+      return console.log(err);
+    }
+    // ... repeat calling data
+    // keep sending until you're ready you've reached the end of the file
+    connection.ibb.close(to, sid, function(err) {
+      log("ibb.close: err=" + err);
+      if (err) {
+        return console.log(err);
+      }
+      // done
+    });
+  });
+}
+	
+	
+	
+	
+	//-------------------------------------------------------------
+	
 	SharedConnObj.on_subscription_request = function(stanza){
 		
 		console.log(stanza);
@@ -612,7 +963,7 @@ function onNotificationReceived(msg)
 			//the friend request is recieved from Client 2
 			var confirmPopup = $ionicPopup.confirm({
 				 title: 'Confirm Friend Request!',
-				 template: ' ' + stanza.getAttribute("from")+' wants to be your freind'
+				 template: ' ' + stanza.getAttribute("from")+' wants to be your Friend'
 			});
 			
 		   confirmPopup.then(function(res) {
@@ -643,6 +994,13 @@ function onNotificationReceived(msg)
 
 	sqlObj={};
 	sqlObj.chatlogs=[];
+	sqlObj.isgroup = function(id)
+	{
+		var group = 0;
+		if (id.includes("@conference")  > 0) 
+		{ group = 1}
+	return group;
+	}
 	
 	//Load Chatlogs
 	sqlObj.loadChats = function(my) {
@@ -651,14 +1009,21 @@ function onNotificationReceived(msg)
        // var query = "SELECT distinct from_id FROM chats where from_id not like ? ";
 	
 
-	   var query = "SELECT distinct from_id,max(id) as id , message,contacts.* FROM chats INNER JOIN contacts ON chats.from_id=contacts.jid where chats.from_id not like ? ";
+	//  var query = "SELECT distinct from_id,max(id) as id   FROM chats   where chats.from_id not like ? ";
+	
+	//var query = "SELECT distinct from_id,count(*) as mcount ,max(id) as id  ,sum(read) as read,message FROM chats where (chats.from_id not like ?  ) group by from_id";
+		var query = "SELECT distinct to_id as from_id,count(*) as mcount ,max(id) as id ,sum(read) as read,message FROM chats where (chats.to_id not like ? ) group by to_id";
+
+
         $cordovaSQLite.execute($rootScope.db, query,[my]).then(function(res) {
 			
 			
-            if(res.rows.length > 0) {
+            if(res.rows.length  != null && res.rows.length> 0  ) {
 				for (var i=0 ; i<res.rows.length; i=i+1) {
 					var photo = res.rows.item(i).photo;
-					if (photo.length ===0)
+					if (photo != null)
+					{
+					if (photo.length  != null &&   photo.length  ===0)
 					{
 						photo = "img/ben.png";
 					}
@@ -666,12 +1031,31 @@ function onNotificationReceived(msg)
 					{
 							photo = "data:image/png;base64," + res.rows.item(i).photo;
 					}
+					}
+					else
+					{	photo = "img/ben.png";}
+					
+					
+					
+					
+					var thisDate =res.rows.item(i).timestamp;
+					var jDate = new Date();
+					if (thisDate != null)
+					{
+var thisDateT = thisDate.substr(0, 10) + "T" + thisDate.substr(11, 8);
+
+ jDate = new Date(thisDateT);
+					}
+					
 					
 					sqlObj.chatlogs.push({
 						 
 						id: res.rows.item(i).from_id,
 						name: res.rows.item(i).name || res.rows.item(i).from_id ,
 						lastText: res.rows.item(i).message,
+						time : jDate,
+						mcount : res.rows.item(i).mcount - res.rows.item(i).read ,
+						group: sqlObj.isgroup(res.rows.item(i).from_id),
 						face:photo
 					});
                 }				
@@ -683,6 +1067,9 @@ function onNotificationReceived(msg)
             console.error(err);
 		});
 			
+		query = "SELECT distinct from_id,count(*) as mcount ,max(id) as id ,message FROM chats where chats.from_id not like ? group by from_id";
+
+		
 		
 		return sqlObj.chatlogs;
     }
@@ -707,10 +1094,15 @@ function onNotificationReceived(msg)
 		$cordovaSQLite.execute($rootScope.db, query,[my_id, recievers_id, my_id, recievers_id]).then(function(res) {
 			if(res.rows.length > 0) {
 				for (var i=0 ; i<res.rows.length; i=i+1) {
+					
+						var thisDate =res.rows.item(i).timestamp;
+var thisDateT = thisDate.substr(0, 10) + "T" + thisDate.substr(11, 8);
+
+var jDate = new Date(thisDateT);
 					sqlObj.messages.push({
 					  userId: res.rows.item(i).from_id,
 					  text: res.rows.item(i).message,
-					  time: res.rows.item(i).timestamp
+					  time:jDate
 					});
 				}				
 					
@@ -721,6 +1113,9 @@ function onNotificationReceived(msg)
 			console.error(err);
 		});
 
+		
+		query = "update chats set read= 1 where (to_id = ? or to_id = ?)  and (from_id = ? or from_id = ?) ";
+		$cordovaSQLite.execute($rootScope.db, query,[my_id, recievers_id, my_id, recievers_id]);
 		return sqlObj.messages;  
 
 	}
@@ -735,10 +1130,16 @@ function onNotificationReceived(msg)
 		$cordovaSQLite.execute($rootScope.db, query,[roomid]).then(function(res) {
 			if(res.rows.length > 0) {
 				for (var i=0 ; i<res.rows.length; i=i+1) {
+					
+						var thisDate =res.rows.item(i).timestamp;
+var thisDateT = thisDate.substr(0, 10) + "T" + thisDate.substr(11, 8);
+
+var jDate = new Date(thisDateT);
+
 					sqlObj.messages.push({
 					  userId: res.rows.item(i).from_id,
 					  text: res.rows.item(i).message,
-					  time: res.rows.item(i).timestamp
+					  time: jDate
 					});
 				}				
 					
@@ -760,12 +1161,14 @@ function onNotificationReceived(msg)
 }])
 
 
-.factory('sqlContact', ['$rootScope','$cordovaSQLite', function($rootScope,$cordovaSQLite){
+.factory('sqlContact', ['$rootScope','$cordovaSQLite'    ,function($rootScope,$cordovaSQLite){
 
 	sqlContactObj={};
 	sqlContactObj.Contacts={};
 	sqlContactObj.AllContacts=[];
 	
+	
+		
 	
 	//Load Contacts
   	sqlContactObj.loadContacts = function(my) {
@@ -997,6 +1400,31 @@ function onNotificationReceived(msg)
 		});
     }
 	
+	sqlGroupObj.DeleteGroup = function(r) {
+		console.log(r);
+	
+		var query = "delete from groups  where groupjid = ? ";
+		$cordovaSQLite.execute( $rootScope.db, query, [r]).then(function(res) {
+			console.log("Group Deleted");
+		}, function (err) {
+			console.log("Group DB Error");
+			console.log(err);
+		});
+    }
+	
+	
+	sqlGroupObj.UpdateGroup = function(groupid , title) {
+		
+	
+		var query = "update groups set title=? where groupjid = ? ";
+		$cordovaSQLite.execute( $rootScope.db, query, [groupid,title]).then(function(res) {
+			console.log("Group Added");
+		}, function (err) {
+			console.log("Group DB Error");
+			console.log(err);
+		});
+    }
+	
 	sqlGroupObj.EmptyGroups = function() {
 		
 		var query = "Delete From groups ";
@@ -1069,10 +1497,6 @@ function onNotificationReceived(msg)
 	return sqlGroupsConnectorObj;
 	
 }])
-
-
-
-
 
 
 .service('BlankService', [function(){
