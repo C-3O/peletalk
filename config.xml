@@ -16,11 +16,7 @@
     Pelephone IT
 </author>
 
-    <!--
-        If you do not want any permissions to be added to your app, add the
-        following tag to your config.xml; you will still have the INTERNET
-        permission on your app, which PhoneGap requires.
-    -->
+   
 <preference name="permissions"                value="none"/>
 
     <!-- Customize your app and platform with the preference element. -->
@@ -41,28 +37,19 @@
 <preference name="SplashScreenDelay"          value="4000" />
 <preference name="SplashShowOnlyFirstTime"    value="false" />
 
-    <!-- rem by R.W. 07/11/2016 <plugin name="cordova-plugin-file" spec="3.0.0" source="pgb" /> -->
-
-
-    <!-- Rem by R.W 17/11/2016 <preference name="phonegap-version" value="cli-6.3.0" /> rollback for deep test on different divices -->
-    <!-- <preference name="phonegap-version" value="cli-5.4.1" /> --> <!-- for Push Notif O.H / R.W. 08/02/2016 -->
+  
 
  <preference name="phonegap-version" value="cli-9.0.0" />
     <preference name="android-build-tool" value="gradle" />
     <preference name="android-minSdkVersion" value="19" />
     <preference name="android-targetSdkVersion" value="28" />
-    <preference name="permissions" value="none" />
-
    
-
     <plugin name="cordova-plugin-battery-status"   />
        <plugin name="cordova-plugin-camera"  />
          <variable name="CAMERA_USAGE_DESCRIPTION" value="Allow the app to use your camera" />
               <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="Allow the app to access your photos" />
        </plugin>
-       <plugin name="cordova-plugin-console"   />
-
-        
+       <plugin name="cordova-plugin-console"   />        
        <plugin name="cordova-plugin-dialogs"  />
        <plugin name="cordova-plugin-file"  />
        <plugin name="cordova-plugin-file-transfer" source="npm" />
@@ -84,10 +71,7 @@
          <plugin name="cordova-plugin-customurlscheme">
            <param name="URL_SCHEME" value="peletalk" />
          </plugin>
-
         <plugin name="cordova-plugin-whitelist" />
-
-
 		<feature name="Keyboard">
     <param name="ios-package" value="IonicKeyboard" onload="true" />
 </feature>
