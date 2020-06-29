@@ -116,7 +116,24 @@
 <splash platform="android" qualifier="xhdpi" src="res/screens/android/screen-xhdpi-portrait.png" />
 <splash platform="android" qualifier="xxhdpi" src="res/screens/android/screen-xxhdpi-portrait.png" />
 <splash platform="android" qualifier="xxxhdpi" src="res/screens/android/screen-xxxhdpi-portrait.png" />
+  <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
+        <application android:usesCleartextTraffic="true" />
+    </edit-config>
 
+
+    <config-file parent="NSLocationAlwaysUsageDescription" platform="ios" target="*-Info.plist">
+           <string> For Push Notifications</string>
+       </config-file>
+
+       <edit-config target="NSContactsUsageDescription" file="*-Info.plist" mode="merge">
+    <string>need contacts access to search friends</string>
+</edit-config>
+       <config-file parent="NSLocationWhenInUseUsageDescription" platform="ios" target="*-Info.plist">
+           <string>For Push Notifications</string>
+       </config-file>
+    <config-file parent="CFBundleShortVersionString" platform="ios">
+        <string>111</string>
+    </config-file>
  
     <!--
         Define access to external domains.
