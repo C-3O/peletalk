@@ -7,8 +7,6 @@ angular.module('app.services', [])
 		ChatDetailsObj.to=to_id;
 	
 	}
-	
-
 	ChatDetailsObj.setGroupTo = function(to_id){
 		ChatDetailsObj.to=to_id.groupjid;
 		ChatDetailsObj.title = to_id.title;
@@ -29,9 +27,6 @@ angular.module('app.services', [])
 	}
 	return ChatDetailsObj;	
 }])
-
-
-
 
 .factory('UserProfile', ['sharedConn','$rootScope', function(sharedConn,$rootScope){
 	
@@ -255,13 +250,10 @@ function onNotificationReceived(msg)
 									else if($(this).attr("subscription")=="none"){ 
 										console.log( $(this).attr("jid")  );
 										ChatsObj.removeRoster( ChatsObj.getRoster( $(this).attr("jid") ) );
-									}
-									
+									}			
 								});
 								$state.go('tabsController.chatlogs', {}, {location: "replace", reload: true});
-							
-							});	
-								
+							});						
 						}
 
 					,"jabber:iq:roster", "iq", "set");
@@ -270,9 +262,6 @@ function onNotificationReceived(msg)
 					return ChatsObj.roster;
 					
 	}	
-				
- 
-
 	ChatsObj.allRoster= function() {
 		loadRoster();
 		return ChatsObj.roster;
@@ -314,10 +303,8 @@ function onNotificationReceived(msg)
     phone2 =    zphone2[i];
         break;
     default:
-      phone =  zphone2[i];
-				
-				}
-	  
+      phone =  zphone2[i];				
+				} 
 	   ChatsObj.Contact.jid = jid;
 						 ChatsObj.Contact.name=   $vCard.find('FN').text();
 						 ChatsObj.Contact.title=  title;
@@ -325,8 +312,7 @@ function onNotificationReceived(msg)
 						ChatsObj.Contact.phone=phone;
 						 ChatsObj.Contact.phone1= phone1;
 						  ChatsObj.Contact.phone2= phone2;
-						ChatsObj.Contact.orgunit= orgunit;
-						 
+						ChatsObj.Contact.orgunit= orgunit;				 
 				}
 				
 		},jid)		 
@@ -352,8 +338,6 @@ function onNotificationReceived(msg)
 		connection.send($pres({ to: to_id , type: "subscribe" }));		
 	}
 	
-
-
 function room_msg_handler(a, b, c) {
   console.log('MUC: room_msg_handler');
   return true;
@@ -1289,11 +1273,6 @@ var jDate = new Date(thisDateT);
 	
 }])
 
-
-
-
-
-
 .factory('sqlGroups', ['$rootScope','$cordovaSQLite', function($rootScope,$cordovaSQLite){
 
 	sqlGroupObj={};
@@ -1311,17 +1290,9 @@ var jDate = new Date(thisDateT);
 		
 		console.log(my);
         $cordovaSQLite.execute($rootScope.db,query,[my]).then(function(res) {
-					
             if(res.rows.length > 0) {
-				
-				
 				for (var i=0 ; i<res.rows.length; i=i+1) {
-					
-				
-				 
-						 sqlGroupObj.group.groupjid = res.rows.item(i).groupjid;
-						
-					
+						 sqlGroupObj.group.groupjid = res.rows.item(i).groupjid;		
                  }				
 				
             } else {
@@ -1334,19 +1305,12 @@ var jDate = new Date(thisDateT);
 		console.log(sqlContactObj.Contacts);
 		return sqlContactObj.Contacts;
     } 
-	
-	
-	
-		sqlGroupObj.loadAllGroups = function() {
+	sqlGroupObj.loadAllGroups = function() {
 			sqlGroupObj.AllGroups = [];
 
 			//Bad implementation 	
         var query = "SELECT groupjid,title  FROM groups";
-		
-		
-		
-        $cordovaSQLite.execute($rootScope.db,query).then(function(res) {
-					
+		        $cordovaSQLite.execute($rootScope.db,query).then(function(res) {			
             if(res.rows.length > 0) {
 				
 				
@@ -1385,8 +1349,6 @@ var jDate = new Date(thisDateT);
 		return sqlGroupObj.AllGroups;
     } 
 	
-	
-	
 	//Insert Chat   to_id,from_id,message,
 	sqlGroupObj.insertGroup = function(r) {
 		console.log(r);
@@ -1411,11 +1373,9 @@ var jDate = new Date(thisDateT);
 			console.log(err);
 		});
     }
-	
-	
-	sqlGroupObj.UpdateGroup = function(groupid , title) {
 		
-	
+	sqlGroupObj.UpdateGroup = function(groupid , title) {
+			
 		var query = "update groups set title=? where groupjid = ? ";
 		$cordovaSQLite.execute( $rootScope.db, query, [groupid,title]).then(function(res) {
 			console.log("Group Added");
@@ -1439,9 +1399,6 @@ var jDate = new Date(thisDateT);
 	return sqlGroupObj;
 	
 }])
-
-
-
 
 
 .factory('sqlGroupsConnector', ['$rootScope','$cordovaSQLite','sharedConn', function($rootScope,$cordovaSQLite,sharedConn){

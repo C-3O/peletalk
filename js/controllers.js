@@ -185,28 +185,11 @@ sharedConn.connection.vcard.get(function(stanza) {
             var img = $vCard.find('BINVAL').text();
             var type = $vCard.find('TYPE').text();
            $scope.userimage  = img;
-	
         },
-                         sharedConn.getConnectObj().authzid );
-						 
-						 
-						
-} ;
-
-
- // $scope.add = function(add_jid){
-		
-		
-    // $scope.friendsList =	sharedConn.search(add_jid);
-		
-	  // };
-	  
-	  
-	  
-	  $scope.add = function(add_jid) {
+                         sharedConn.getConnectObj().authzid );					 
+	} ;
+	  	  $scope.add = function(add_jid) {
    var xxxxxx =   $scope.getAllFriends(add_jid);
-        
-
 }
 
 $scope.getAllFriends = function(name) {
@@ -216,31 +199,16 @@ $scope.getAllFriends = function(name) {
 		}).
 		catch(function(err){
 		console.log(err);
-		  });
-            
-
+		  });        
 }
-
-
-	  
-
-   $scope.init =  function() {
-   
-
-						 
-						 
-						
+  $scope.init =  function() {
 } ;
-	
-	
 	$scope.DeleteDB = function()
-	{
-		
+	{		
 		var confirmPopup = $ionicPopup.confirm({
 				 title: 'Warning!',
 				 template: ' you are about to delete all you history'
-			});
-			
+			});		
 		   confirmPopup.then(function(res) {
 			 if(res) {
 			   	console.log("Delete DataBase");
@@ -252,18 +220,9 @@ $scope.getAllFriends = function(name) {
 			 	console.log("Delete DataBase Canceled");
 			 }
 		   });
-		   
-		   
-	
 	}
-	
-	
-	
-	$scope.ListRooms = function(){
-		
+	$scope.ListRooms = function(){	
 		Chats.listRooms();
-		
-		
 	}
 	
 	$scope.DeleteDBContact = function()
@@ -284,29 +243,17 @@ $scope.getAllFriends = function(name) {
 			 	console.log("Delete DataBase Canceled");
 			 }
 		   });
-		   
-		   
-	
 	}
-	
-	
-	
 	$scope.logout=function(){
 			sharedConn.GetSearch();
 	};
 })
 
-
-
-
-
 .controller('UserProfileCtrl', function($scope,$state,$cordovaSQLite,$ionicPopup,sharedConn,$rootScope,Chats,UserProfile,sqlContact,$timeout, $stateParams,ionicMaterialMotion, ionicMaterialInk) {
 	var jid = UserProfile.getTo();
 var init = function () {
 //  $scope.contact = sqlContact.loadContacts(jid);
-
  $scope.contact = Chats.loadcontactfromserver(jid);
-
 };
 // and fire it after definition
 init();
@@ -327,13 +274,10 @@ init();
     ionicMaterialInk.displayEffect();
   $scope.to_id =  UserProfile.getTo();
  $scope.userimage =UserProfile.getimage();
- 
- 
   $scope.myGoBack = function() {
     $ionicHistory.goBack();
   };
 })
-
 
 .controller('GroupProfileCtrl', function($scope,$state,$cordovaSQLite,$ionicPopup,sharedConn,$rootScope,GroupProfile,sqlContact,$timeout, $stateParams,ionicMaterialMotion, ionicMaterialInk) {
 	 var jid = GroupProfile.getTo();
@@ -359,17 +303,12 @@ sharedConn.GetRoomOcc(jid);
 
  $scope.to_id =  GroupProfile.getTo();
 $scope.userimage =GroupProfile.getimage();
-
 })
-
-
 .controller('contactsCtrl', function($scope,Chats,$state,ChatDetails,sqlContact) {
- 
 	// var contacts   = 	Chats.allRoster();
 	 $scope.chats = Chats.allRoster();
 	 // $scope.chats =   sqlContact.loadAllContacts();
 	   // $scope.showface = function(jid){
-		   
 		  // var face = sqlContact.loadContacts(jid).photo ;
 		  // return face
 	   // }
@@ -390,11 +329,8 @@ $scope.userimage =GroupProfile.getimage();
 
 .controller('groupsCtrl', function($scope,Chats,$state,ChatDetails,sqlGroups,sqlGroupsConnector) {
  
-	
-	 
 	 $scope.chats =   sqlGroupsConnector.loadAllGroups();
-	   $scope.showface = function(jid){
-		   
+	   $scope.showface = function(jid){		   
 		  var face = sqlContact.loadContacts(jid).photo ;
 		  return face
 	   }
@@ -402,29 +338,22 @@ $scope.userimage =GroupProfile.getimage();
 		Chats.removeRoster(chat);
 	  };
 	
-	  
 	  $scope.chatG=function(chat){ 
 		ChatDetails.setGroupTo(chat);
 		$state.go('tabsController.GroupchatDetails', {}, {location: "replace", reload: false});
 	  };
-	  
-	  
-	  $scope.add = function(add_jid){
+		  
+  $scope.add = function(add_jid){
 		Chats.CreateNewRoom(add_jid);
-		 $scope.chats =   sqlGroupsConnector.loadAllGroups();
-		 
-		
+		 $scope.chats =   sqlGroupsConnector.loadAllGroups();	
 	  };
 	  
 	    $scope.remove = function(add_jid){
 		Chats.LeaveRoom(add_jid);
 		 $scope.chats =   sqlGroupsConnector.loadAllGroups();
-		 
-		
 	  };
 	  
 })
-
 .controller('chatlogsCtrl', function($scope,sql,sharedConn, ChatDetails, $state) {
 	var myid= sharedConn.getBareJid( sharedConn.getConnectObj().jid );
 	var init = function () {
@@ -435,15 +364,6 @@ $scope.userimage =GroupProfile.getimage();
 };
 // and fire it after definition
 init();
-
-/*
-	var to_jid  = Strophe.getBareJidFromJid('talt@pelephone.co.il');
-		var timestamp = new Date().getTime();
-		var reqChannelsItems = $msg({id:timestamp, to:to_jid , type: 'chat' })
-								   .c("body").t("ccc");
-		sharedConn.getConnectObj().send(reqChannelsItems.tree());
-	*/	
-		
 	$scope.chatlogs = sql.loadChats(myid);
 	
 	$scope.chatD=function(to_id){ 
@@ -471,10 +391,7 @@ init();
 	};
 	
 	
- $scope.messageRecieve=function(msg){	
-  
-	
-	
+ $scope.messageRecieve=function(msg){		
 		var stoptypping  = msg.getElementsByTagName('body');
 		if (stoptypping.length > 0 ) {
 		 
@@ -485,45 +402,33 @@ init();
    $scope.$on('msgRecievedBroadcast', function(event, data) {
 		$scope.messageRecieve(data);
     });
-
- 
- 
-
-	
 })
 
 .controller('loginCtrl', function($scope , sharedConn,$state,$timeout,ionicMaterialInk) {
 
 
 	var XMPP_DOMAIN  = 'peletalk1-vvw.pelephone.co.il'; // Domain we are going to be connected to.
-	var xmpp_user    = 'admin';     // xmpp user name
-	var xmpp_pass    = 'admin';
+var xmpp_user    = '';     // xmpp user name
+	var xmpp_pass    = '';	
 	
 	$scope.goToRegister=function(){
 		$state.go('register', {}, {location: "replace", reload: true});
 	}
-	
-	
-	
+
 	$scope.login=function(user){
 		
 		window.localStorage.setItem("userjid", user.jid);
 		window.localStorage.setItem("userpass", user.pass);
 		window.localStorage.setItem("XMPP_DOMAIN", 'peletalk1-vvw.pelephone.co.il');
 		sharedConn.login(user.jid,XMPP_DOMAIN,user.pass);
-	}
-	
+	}	
 	var userjid = window.localStorage["userjid"];
 	var userpass = window.localStorage["userpass"];
-	
 	if (userjid)
 	{
 		sharedConn.login(userjid,XMPP_DOMAIN,userpass);
 	}
-
-	//
 })
-
 
 .controller('chatDetailsCtrl', function($scope, $timeout, $ionicScrollDelegate,sharedConn,ChatDetails,UserProfile,sql,$state,$stateParams,ionicMaterialMotion, $timeout,ionicMaterialInk,$ionicHistory,sqlContact,$ionicViewSwitcher) {
  
