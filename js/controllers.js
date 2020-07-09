@@ -467,6 +467,7 @@ init();
 		var timestamp = new Date().getTime();
 		var reqChannelsItems = $msg({id:timestamp, to:to_jid , type: 'chat' })
 								   .c("body").t(body);
+								   sharedConn.connection
 		sharedConn.getConnectObj().send(reqChannelsItems.tree());
 	};
   

@@ -28,16 +28,16 @@
            <p class="message">{{ message.text }}</p>
 		    <span class="timestamp">{{ message.time | date:'mediumTime' }}</span>
          </div>
-    ``<div   ng-class="{alt: message.userId != myId}" class="bubble-arrow"></div>
+    <div   ng-class="{alt: message.userId != myId}" class="bubble-arrow"></div>
  			
-			<!--
+			
 			<div class="message" ng-class="{'slide-right': hideTime, '': !hideTime}">
 				<span >{{ message.text }}</span>
 			</div>
 
 			
 			<div class="time" ng-class="{'slide-right': hideTime,'' : !hideTime}">{{message.time}}</div>
-			-->
+			
 
 		</div>
 		</div>

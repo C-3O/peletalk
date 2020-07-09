@@ -483,7 +483,7 @@ connection.muc.createConfiguredRoom(roomName, config, onCreateRoomSuccess, onCre
 	//Login Function
 	SharedConnObj.login=function (jid,host,pass) {	 
 	
-		SharedConnObj.connection = new Strophe.Connection( SharedConnObj.BOSH_SERVICE , {'keepalive': true});  // We initialize the Strophe connection.
+		SharedConnObj.connection = new Strophe.Connection( SharedConnObj.BOSH_SERVICE , {'keepalive': true,sync: true});  // We initialize the Strophe connection.
 		SharedConnObj.connection.connect(jid+'@'+host, pass , SharedConnObj.onConnect);
 		
 		SharedConnObj .connection.xmlOutput = function (data) { 
@@ -592,7 +592,7 @@ connection.muc.createConfiguredRoom(roomName, config, onCreateRoomSuccess, onCre
 		var to = msg.getAttribute('to'); 
 		if (!to)
 		{
-	to=SharedConnObj.getBareJid(to);
+				to=SharedConnObj.getBareJid(to);
 		}else
 		{
 			to= SharedConnObj.getConnectObj().authzid;
