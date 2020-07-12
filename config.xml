@@ -8,12 +8,8 @@
         versionCode= "113" >
 
 <name>Pele Talk</name>
-<description>
- The New Way To Talk
-</description>
-<author email="oren@pelephone.co.il" href="http://www.pelephone.co.il">
-    Pelephone IT
-</author>
+<description>The New Way To Talk</description>
+<author email="oren@pelephone.co.il" href="http://www.pelephone.co.il">Pelephone IT</author>
 
    
 <preference name="permissions"                value="none"/>
@@ -44,9 +40,9 @@
          <variable name="CAMERA_USAGE_DESCRIPTION" value="Allow the app to use your camera" />
               <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="Allow the app to access your photos" />
        </plugin>
-       <plugin name="cordova-plugin-console"   />        
-       <plugin name="cordova-plugin-dialogs"  />
-       <plugin name="cordova-plugin-file"  />
+       <plugin name="cordova-plugin-console"   source="npm"  />        
+       <plugin name="cordova-plugin-dialogs"  source="npm"  />
+       <plugin name="cordova-plugin-file"  source="npm"  />
        <plugin name="cordova-plugin-file-transfer" source="npm" />
   <plugin name="cordova-sqlite-evcore-extbuild-free" source="npm" />
        <plugin name="cordova-plugin-globalization" source="npm" />
@@ -62,10 +58,10 @@
          <!-- <plugin name="cordova-plugin-email-composer"   source="npm" /> -->
          <plugin name="cordova-plugin-app-version" source="npm" />
           <!-- <plugin name="onesignal-cordova-plugin" source="npm" /> -->
-         <plugin name="cordova-plugin-customurlscheme">
+         <plugin name="cordova-plugin-customurlscheme"  source="npm"  >
            <param name="URL_SCHEME" value="peletalk" />
          </plugin>
-        <plugin name="cordova-plugin-whitelist" />
+        <plugin name="cordova-plugin-whitelist"  source="npm"  />
 		
 
 
