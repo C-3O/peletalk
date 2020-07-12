@@ -134,16 +134,6 @@
     <config-file parent="CFBundleShortVersionString" platform="ios">
         <string>143</string>
     </config-file>
-<<<<<<< Updated upstream
-    <access origin="*" />
-    <allow-intent href="http://*/*" />
-    <allow-intent href="https://*/*" />
-    <allow-intent href="file://*/*" />
-    <allow-intent href="tel:*" />
-    <allow-intent href="sms:*" />
-    <allow-intent href="mailto:*" />
-    <allow-intent href="geo:*" />
-=======
  
     <!--
         Define access to external domains.
@@ -172,6 +162,5 @@
 	<allow-intent href="itms:*" />
 	<allow-intent href="itms-apps:*" />
 </platform>
->>>>>>> Stashed changes
 
 </widget>
