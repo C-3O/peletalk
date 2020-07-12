@@ -8,7 +8,6 @@
         versionCode= "113" >
 
 <name>Pele Talk</name>
-
 <description>
  The New Way To Talk
 </description>
@@ -36,9 +35,7 @@
 <preference name="SplashScreen"               value="splash" />
 <preference name="SplashScreenDelay"          value="4000" />
 <preference name="SplashShowOnlyFirstTime"    value="false" />
-
-  
-
+ 
  <preference name="phonegap-version" value="cli-9.0.0" />
     <preference name="android-build-tool" value="gradle" />
     <preference name="android-minSdkVersion" value="19" />
@@ -135,20 +132,9 @@
         <string>143</string>
     </config-file>
  
-    <!--
-        Define access to external domains.
-        <access />            - a blank access tag denies access to all external res.
-        <access origin="*" /> - a wildcard access tag allows access to all external resource.
-        Otherwise, you can specify specific domains:
-        <access origin="http://phonegap.com" />                    - allow any secure requests to http://phonegap.com/
-        <access origin="http://phonegap.com" subdomains="true" />  - same as above, but including subdomains, such as http://build.phonegap.com/
-        <access origin="http://phonegap.com" browserOnly="true" /> - only allows http://phonegap.com to be opened by the child browser.
-    -->
-
+    
 <access origin="*"/>
-<!-- Added the following intents to support the removal of whitelist code from base cordova to a plugin -->
-<!-- Whitelist configuration. Refer to https://cordova.apache.org/docs/en/edge/guide_appdev_whitelist_index.md.html -->
-
+ 
 <allow-intent href="http://*/*" />
 <allow-intent href="https://*/*" />
 <allow-intent href="tel:*" />
@@ -162,5 +148,4 @@
 	<allow-intent href="itms:*" />
 	<allow-intent href="itms-apps:*" />
 </platform>
-
 </widget>
