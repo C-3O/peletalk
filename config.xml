@@ -17,8 +17,6 @@
 
    
 <preference name="permissions"                value="none"/>
-
-    <!-- Customize your app and platform with the preference element. -->
 <preference name="orientation"                value="portrait" />        <!-- all: default means both landscape and portrait are enabled -->
 <preference name="target-device"              value="handset" />      <!-- all: possible values handset, tablet, or universal -->
 <preference name="fullscreen"                 value="false" />           <!-- all: hides the status bar at the top of the screen -->
@@ -42,7 +40,7 @@
     <preference name="android-targetSdkVersion" value="28" />
    
     <plugin name="cordova-plugin-battery-status"   />
-       <plugin name="cordova-plugin-camera"  />
+<plugin name="cordova-plugin-camera"  >
          <variable name="CAMERA_USAGE_DESCRIPTION" value="Allow the app to use your camera" />
               <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="Allow the app to access your photos" />
        </plugin>
@@ -69,9 +67,7 @@
            <param name="URL_SCHEME" value="peletalk" />
          </plugin>
         <plugin name="cordova-plugin-whitelist" />
-		<feature name="Keyboard">
-    <param name="ios-package" value="IonicKeyboard" onload="true" />
-</feature>
+		
 
 
     
