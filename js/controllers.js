@@ -449,7 +449,7 @@ init();
   $scope.myId = sharedConn.getBareJid( sharedConn.getConnectObj().jid );
  $scope.typing = false;
   //Loading Previous Conversation
-  $scope.messages = sql.showChats( $scope.myId , $scope.to_id );
+  $scope.messages = {}; //sql.showChats( $scope.myId , $scope.to_id );
     $ionicScrollDelegate.scrollBottom(false);
 	
   
@@ -492,6 +492,27 @@ $scope.sendFileClick=function() {
 		console.log("	>data.len="+data.length);
 	});
 }
+
+$scope.login =function(){
+	
+	var XMPP_DOMAIN  = 'peletalk1-vvw.pelephone.co.il'; // Domain we are going to be connected to.
+var xmpp_user    = '';     // xmpp user name
+	var xmpp_pass    = '';	
+	
+	
+
+	
+	var userjid = window.localStorage["userjid"];
+	var userpass = window.localStorage["userpass"];
+	if (userjid)
+	{
+		sharedConn.login(userjid,XMPP_DOMAIN,userpass);
+	}
+
+}
+
+
+
   $scope.showSendMessage = function() {
 	$scope.sendMsg($scope.to_id,$scope.data.message);  
     var d = new Date();
@@ -515,7 +536,7 @@ $scope.sendFileClick=function() {
   };
   
   $scope.messageRecieve=function(msg){	
-  
+  alert(msg);
 	//  var to = msg.getAttribute('to');
 	var from = msg.getAttribute('from');
 	from=sharedConn.getBareJid(from);

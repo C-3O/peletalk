@@ -568,11 +568,7 @@ connection.muc.createConfiguredRoom(roomName, config, onCreateRoomSuccess, onCre
 			   SharedConnObj.connection.send($pres({ to: msg.getAttribute("from") , type: "unsubscribed" }));
 			 }
 		   });
-		   
-		   
-		   
-		
-		
+
 		SharedConnObj.connection.muc.join( msg.getAttribute("from"),SharedConnObj.getConnectObj().authzid);
 		$rootScope.$broadcast('msgRecievedBroadcast', msg );
 		return true;
