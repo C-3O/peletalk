@@ -48,7 +48,7 @@
        <plugin name="cordova-plugin-dialogs"  />
        <plugin name="cordova-plugin-file"  />
        <plugin name="cordova-plugin-file-transfer" source="npm" />
-  <plugin name="cordova-sqlite-storage" version="4.0.0" />
+  <plugin name="cordova-sqlite-storage" version="3.2.1" />
        <plugin name="cordova-plugin-globalization" source="npm" />
        <plugin name="cordova-plugin-inappbrowser" source="npm" />
        <plugin name="cordova-plugin-media" source="npm" >
