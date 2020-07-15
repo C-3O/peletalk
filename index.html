@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-	
     <title></title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
@@ -17,28 +16,23 @@
 	<!--adding SQLite 3 -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 	<script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
-	 <link href="lib/ion-md-input/css/ion-md-input.min.css" rel="stylesheet">
-    <link href="lib/ionic-material/dist/ionic.material.min.css" rel="stylesheet">
 	
-   <link href="css/style.css" rel="stylesheet">
-    
-    <script src="lib/ionic-material/dist/ionic.material.min.js"></script>
-    <script src="lib/ion-md-input/js/ion-md-input.min.js"></script>
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 	
 	 <!--// Strophe.js-->
 	<script src='lib/strophe/strophe.js'></script>
-	<script src='lib/strophe/strophe.vcard.js'></script> 
-	<script src='lib/strophe/strophe.muc.js'></script>
-	<script src='lib/strophe/strophe.si-filetransfer.js'></script>
-	<script src='lib/strophe/strophe.ibb.js'></script>
+	<script src="lib/strophe/strophe.min.js"></script>
 	
+	<!--Strophe Register -->
+	<script src='lib/strophe/register/strophe.register.js'></script>
+	
+
 
 	
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet"> -->
-   
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
 
     <style type="text/css">
       .platform-ios .manual-ios-statusbar-padding{
@@ -50,23 +44,13 @@
       .manual-remove-top-padding .scroll{
         padding-top:0px !important;
       }
-    </style> 
- <!-- <script src="js/strophevcard.js"></script> -->
-   	<script src="js/angular-filter.min.js"></script>
-	
+    </style>
 
-<script src="lib/underscore/underscore-min.js"></script>
-<script src="lib/angular-underscore-module/angular-underscore-module.js"></script>
-
-	<script src="js/app.js"></script>
+    <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
     <script src="js/routes.js"></script>
     <script src="js/services.js"></script>
     <script src="js/directives.js"></script>
-	 
-	
-	
-	
 
     <!-- Only required for Tab projects w/ pages in multiple tabs 
     <script src="lib/ionicuirouter/ionicUIRouter.js"></script>
@@ -74,18 +58,13 @@
 
   </head>
   <body ng-app="app" animation="slide-left-right-ios7">
-
-
- 
+  <div style="">
+    <div style="">
+        <ion-nav-bar class="bar-stable">
+            <ion-nav-back-button class="button-icon icon ion-ios-arrow-back">Back</ion-nav-back-button>
+        </ion-nav-bar>
         <ion-nav-view></ion-nav-view>
-
-
-
-  <!-- <ion-nav-bar class="bar-positive"> -->
-      
-    <!-- </ion-nav-bar> -->
-             
-    <!-- <ion-nav-view></ion-nav-view> -->
-
+    </div>
+</div>
   </body>
 </html>

@@ -1,41 +1,18 @@
-<ion-view id="page2" title="Chats" >
-	 <ion-nav-bar class="bar-positive">  
-	 
- </ion-nav-bar> 
-	<ion-content >
+<ion-view style="" id="page2" title="Chats">
+    <ion-content class="has-header" >
 	
-  <ion-refresher       pullingText="Pull to refresh..."       refreshingText="Refreshing..."  on-refresh="dorefresh">  </ion-refresher>
-
 		<label style="" class="item item-input">
             <i class="icon ion-search placeholder-icon"></i>
-            <input placeholder="" type="search" ng-model="search">
+            <input placeholder="" type="search">
         </label>
 
-			<div>
-			
-			<a  class="item-left"  ng-click="msgbroadcast('oren@peletalk1-vvw.pelephone.co.il','test 7878','normal')">Broadcast</a>
-		<a  style="right:0px !important;position: absolute;" ng-click="add(add_jid)">Add Group</a>
-	</div>
+		
 		
 		<ion-list style="">
-		 <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chatitem in chatlogs | filter:search" type="item-text-wrap" ng-click="chatD(chatitem.id)">
-  
-
-
- 
-			<img ng-if = "chatitem.group != 0" data-ng-src="{{chatitem.face || 'img/Group-icon.png'}}" data-err-src="img/Group-icon.png"/>
-			 
-			
-			 
-			<img  ng-if = "chatitem.group  = 0" data-ng-src="{{chatitem.face || 'img/ben.png'}}" data-err-src="img/ben.png"/>
-			 
-			 
+		 <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chatitem in chatlogs" type="item-text-wrap" ng-click="chatD(chatitem.id)">
+			<img ng-src="{{chatitem.face}}">
 			<h2>{{chatitem.name}}</h2>
-		
 			<p>{{chatitem.lastText}}</p>
-			<p>{{chatitem.group}}</p>
-			<span ng-if = "chatitem.mcount != 0" class="badge badge-assertive">{{ chatitem.mcount }}</span>
-			
 			<i class="icon ion-chevron-right icon-accessory"></i>
 
 			<ion-option-button class="button-assertive" ng-click="remove(chatitem)">

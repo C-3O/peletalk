@@ -1,21 +1,31 @@
-<ion-view view-title="Login" hide-nav-bar="true">
-	
-	<ion-content style="background: url(img/login.jpg) center; background-size: cover;">
-        <div class="hero no-header flat">
-            <div class="content">
-                <div class="app-icon"></div>
-                <h1>Pele Talk</h1>
-            </div>
-        </div>
-        <div class="list">
-		
-		
-            <ion-md-input placeholder="Username"  ng-model="user.jid" highlight-color="balanced" type="text"></ion-md-input>
-            <ion-md-input placeholder="Password"  ng-model="user.pass" placeholder="admin"  highlight-color="energized" type="password"></ion-md-input>
-        </div>
-        <div class="padding">
-            <button id="login-button" ng-click="login(user)" class="button button-full button-assertive ink">Login</button>
-        </div>
-       
+<ion-view style="" id="page5" title="Login" hide-back-button="true">
+    <ion-content class="has-header" padding="true">
+        <form style="" class="list">
+            <ion-list style="">
+			
+                <label style="" class="item item-input">
+                    <span class="input-label">Jabber ID</span>
+					<!-- username without "@jabberpl.org" , For eg :-  arjun -->
+                    <input ng-model="user.jid" placeholder="username" type="text">
+                </label>
+            
+				<label style="" class="item item-input">
+                    <span class="input-label">Password</span>
+                    <input ng-model="user.pass" placeholder="password" type="password">
+                </label>
+                
+				<label style="" class="item item-input">
+                    <span class="input-label">Host</span>
+                    <input ng-model="user.host" placeholder="" type="text">
+                </label>
+            
+			</ion-list>
+            <div style="height: 40px;" class="spacer"></div>
+            
+			 <button  class="button button-stable button-block "  id="login-button" ng-click="login(user)" >Log in</button>
+			 
+			 <button  class="button button-stable button-block "  id="register-button" ng-click="goToRegister()" >Register</button>
+            
+			</form>
     </ion-content>
 </ion-view>

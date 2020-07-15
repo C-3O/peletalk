@@ -4,17 +4,6 @@ angular.module('app.directives', [])
 
 }])
 
-.directive('hideTabs', function($rootScope) {
-  return {
-      restrict: 'A',
-      link: function($scope, $el) {
-          $rootScope.hideTabs = 'tabs-item-hide';
-          $scope.$on('$destroy', function() {
-              $rootScope.hideTabs = '';
-          });
-      }
-  };
-})
 
 // All this does is allow the message
 // to be sent when you tap return

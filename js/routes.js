@@ -1,22 +1,12 @@
 angular.module('app.routes', [])
 
-.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider ) {
+.config(function($stateProvider, $urlRouterProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
- 
- // Turn off caching for demo simplicity's sake
-   //$ionicConfigProvider.views.maxCache(1);
-
-    
-    // Turn off back button text
-  //  $ionicConfigProvider.backButton.previousTitleText(false);
-    
-
-
- $stateProvider
+  $stateProvider
     
   
 
@@ -39,53 +29,13 @@ angular.module('app.routes', [])
       }
     }
   })
-.state('tabsController.groups', {
-    url: '/page7',
-    views: {
-      'tab3': {
-        templateUrl: 'templates/groups.html',
-        controller: 'groupsCtrl'
-      }
-    }
-  })
+
   .state('tabsController.settings', {
     url: '/page4',
     views: {
-      'tab5': {
+      'tab3': {
         templateUrl: 'templates/settings.html',
         controller: 'settingsCtrl'
-      }
-    }
-  })
-  
-  .state('tabsController.search', {
-    url: '/page9',
-    views: {
-      'tab4': {
-        templateUrl: 'templates/search.html',
-        controller: 'searchCtrl'
-      }
-    }
-  })
-  
-   .state('tabsController.UserProfile', {
-    url: '/page10',
-	 cache: false,
-    views: {
-      'tab3': {
-        templateUrl: 'templates/UserProfile.html',
-        controller: 'UserProfileCtrl'
-      }
-    }
-  })
-  
-   .state('tabsController.GroupProfile', {
-    url: '/page11',
-	cache:false,
-    views: {
-      'tab1': {
-        templateUrl: 'templates/GroupProfile.html',
-        controller: 'GroupProfileCtrl'
       }
     }
   })
@@ -93,9 +43,7 @@ angular.module('app.routes', [])
   .state('tabsController', {
     url: '/page1',
     templateUrl: 'templates/tabsController.html',
-    controller : 'TabCtrl'
-	
-	
+    abstract:true
   })
 
   .state('login', {
@@ -107,24 +55,12 @@ angular.module('app.routes', [])
   .state('tabsController.chatDetails', {
     url: '/page6',
     views: {
-      'tab1': {
+      'tab2': {
         templateUrl: 'templates/chatDetails.html',
         controller: 'chatDetailsCtrl'
       }
     }
   })
-  
-  .state('tabsController.GroupchatDetails', {
-    url: '/page106',
-    views: {
-      'tab1': {
-        templateUrl: 'templates/GroupchatDetails.html',
-        controller: 'GroupchatDetailsCtrl'
-      }
-    }
-  })
-  
-  //GroupchatDetails.html
   
   .state('register', {
     url: '/page7',
