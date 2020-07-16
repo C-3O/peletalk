@@ -5,8 +5,8 @@
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.int-pele.peletalk"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        version   = "117"
-        versionCode= "117" >
+        version   = "118"
+        versionCode= "118" >
 
 <name>Pele Talk</name>
 <description>The New Way To Talk</description>
@@ -45,7 +45,7 @@
        <plugin name="cordova-plugin-globalization" source="npm" />
       <plugin name="cordova-plugin-inappbrowser" source="npm" /> -->
  
-  <plugin name="https://github.com/brodysoft/cordova-sqlite-evcore-extbuild-free.git"  />
+  <plugin name="https://github.com/litehelpers/Cordova-sqlite-storage.git"  />
        <plugin name="cordova-plugin-media" source="npm" >
          <variable name="CAMERA_USAGE_DESCRIPTION" value="Allow the app to use your camera" />
               <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="Allow the app to access your photos" />
