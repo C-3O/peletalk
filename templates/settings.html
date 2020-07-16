@@ -5,7 +5,13 @@
 			<ion-toggle style="" toggle-class="toggle-positive" ng-checked="true">Enable Friends</ion-toggle>
 			
 			<button ng-click="logout()" id="logout-button" class="button button-positive button-block ">Log Out</button>
-					
+                
+            <label style="" class="item item-input">
+                <span class="input-label">Host</span>
+                <input ng-model="dname" placeholder="" type="text">
+            </label>
+
+            <button ng-click="setdevicename(dname)" id="device-button" class="button button-positive button-block ">Set Device Name</button>
         </form>
     </ion-content>
 </ion-view>

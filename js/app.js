@@ -14,7 +14,28 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
+	
+    //   var deviceName = cordova.plugins.deviceName;
+ 
+    //   console.log(deviceName.name) // e.g: Becvert's iPad
+       
+    //   deviceName.get(function success(name) {
+    //     console.log(name);
+    //     $rootScope.host = name;
+      
+    //   }, function failure(error) {
+    // //    user.host =  window.localStorage["DeviceName"];
+    //       console.log(error);
+    //   });
+
     }
+    // else
+
+    // {
+
+    //     $rootScope.host = window.device.name;
+
+    // }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();

@@ -15,11 +15,18 @@ angular.module('app.controllers', [])
 
 .controller('settingsCtrl', function($scope,$state,sharedConn) {
 	
+$scope.dname = window.localStorage["DeviceName"];
+
 	$scope.logout=function(){
 		console.log("Log T");
 		sharedConn.logout();
 		$state.go('login', {}, {location: "replace", reload: true});
 	};
+
+	$scope.setdevicename = function(dname){
+	window.localStorage.setItem("DeviceName", dname);
+}
+
 })
 
 .controller('contactsCtrl', function($scope,Chats,$state,ChatDetails) {
@@ -63,24 +70,31 @@ angular.module('app.controllers', [])
 	$scope.goToRegister=function(){
 		$state.go('register', {}, {location: "replace", reload: true});
 	}
-	
-	
+
 	//sharedConn.login(xmpp_user,XMPP_DOMAIN,xmpp_pass);  // To automate login
 	
 	$scope.login=function(user){
 		window.localStorage.setItem("userjid", user.jid);
 		window.localStorage.setItem("userpass", user.pass);
-		//window.localStorage.setItem("XMPP_DOMAIN", XMPP_DOMAIN);
+		window.localStorage.setItem("DeviceName", user.host);
 		sharedConn.login(user.jid,XMPP_DOMAIN,user.pass);
 	}
 
 	var userjid = window.localStorage["userjid"];
 	var userpass = window.localStorage["userpass"];
-	if (userjid)
+	var devicename = window.localStorage["DeviceName"];
+
+
+
+
+
+	if (userjid) 
 	{
-		sharedConn.login(userjid,XMPP_DOMAIN,userpass);
+		sharedConn.login(userjid,XMPP_DOMAIN,userpass,devicename);
 	}
-	
+
+
+
 })
 
 

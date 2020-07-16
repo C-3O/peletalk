@@ -194,9 +194,9 @@ angular.module('app.services', [])
 	 //--------------------------------------***END HELPER FUNCTIONS***----------------------------------------------------------
 	 	
 	//Login Function
-	SharedConnObj.login=function (jid,host,pass) {	
+	SharedConnObj.login=function (jid,host,pass,devicename) {	
 		SharedConnObj.connection = new Strophe.Connection( SharedConnObj.BOSH_SERVICE , {'keepalive': true});  // We initialize the Strophe connection.
-		SharedConnObj.connection.connect(jid+'@'+host+ '/Iphone', pass , SharedConnObj.onConnect);
+		SharedConnObj.connection.connect(jid+'@'+host+ '/' +devicename, pass , SharedConnObj.onConnect);
 	};
 	
 	//On connect XMPP
