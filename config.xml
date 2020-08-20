@@ -61,7 +61,7 @@
          </plugin>
         <plugin name="cordova-plugin-whitelist"  source="npm"  />
 		
-		<plugin name="uk.co.ibcomputing.phonegapbuild.plugins.receivesendintents" version="0.2.0">
+		<plugin spec="https://github.com/Tunts/WebIntent.git" source="git">
     <param name="LAUNCHMODE" value="singleTop" />
 </plugin>
 
