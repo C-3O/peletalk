@@ -231,7 +231,7 @@ $scope.dname = window.localStorage["DeviceName"];
    
 	
 	//Loading Previous Conversation
-	$scope.messages = {}; // sql.showChats( $scope.myId , $scope.to_id );
+	$scope.messages = []; // sql.showChats( $scope.myId , $scope.to_id );
 	$ionicScrollDelegate.scrollBottom(true);
   
 	var isIOS = ionic.Platform.isIOS(); 

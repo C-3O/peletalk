@@ -165,7 +165,7 @@ angular.module('app.services', [])
 }])
 
 
-.factory('sharedConn', ['$ionicPopup','$state','$rootScope','$ionicPopup',function($ionicPopup,$state, $rootScope , $ionicPopup ){
+.factory('sharedConn', ['$ionicPopup','$state','$rootScope',function($ionicPopup,$state, $rootScope ){
 	
 	 var SharedConnObj={};
 	
@@ -347,6 +347,59 @@ angular.module('app.services', [])
 		
 		return sqlObj.chatlogs;
     }
+	
+	//Insert Chat   to_id,from_id,message,
+	sqlObj.insertChat = function(r) {
+		var query = "INSERT INTO chats (to_id,from_id,message) VALUES (?,?,?) ";
+		$cordovaSQLite.execute( $rootScope.db, query, [r.to_id, r.from_id, r.message]).then(function(res) {
+			console.log("Message Added");
+		}, function (err) {
+			console.log("DB Error");
+		});
+    }
+	
+	
+	//Loads users previous chat
+	sqlObj.showChats=function(my_id,recievers_id){
+		
+		sqlObj.messages=[];
+	  
+		var query = "SELECT * FROM chats where (to_id = ? or to_id = ?)  and (from_id = ? or from_id = ?) ";
+		$cordovaSQLite.execute($rootScope.db, query,[my_id, recievers_id, my_id, recievers_id]).then(function(res) {
+			if(res.rows.length > 0) {
+				for (var i=0 ; i<res.rows.length; i=i+1) {
+					sqlObj.messages.push({
+					  userId: res.rows.item(i).from_id,
+					  text: res.rows.item(i).message,
+					  time: res.rows.item(i).timestamp
+					});
+				}				
+					
+			} else {
+				console.log("No message found");
+			}
+		}, function (err) {
+			console.error(err);
+		});
+
+		return sqlObj.messages;  
+
+	}
+	
+	return sqlObj;
+	
+}])
+
+
+
+
+.factory('sql2', ['$rootScope', function($rootScope){
+
+	sqlObj={};
+	sqlObj.chatlogs=[];
+	
+	//Load Chatlogs
+	sqlObj.loadChats =window.localStorage["chats"];
 	
 	//Insert Chat   to_id,from_id,message,
 	sqlObj.insertChat = function(r) {

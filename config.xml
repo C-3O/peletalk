@@ -5,11 +5,11 @@
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.int-pele.peletalk"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        version   = "121"
-        versionCode= "121" >
+        version   = "122"
+        versionCode= "122" >
 
-<name>Pele Talk</name>
-<description>The New Way To Talk</description>
+<name>Collhub</name>
+<description>Collhub </description>
 <author email="oren@pelephone.co.il" href="http://www.pelephone.co.il">Pelephone IT</author>   
 <preference name="permissions"                value="none"/>
 <preference name="orientation"                value="portrait" />        <!-- all: default means both landscape and portrait are enabled -->
@@ -110,7 +110,7 @@
            <string>For Push Notifications</string>
        </config-file>
     <config-file parent="CFBundleShortVersionString" platform="ios">
-        <string>121</string>
+        <string>122</string>
     </config-file>
      
 <access origin="*"/>
