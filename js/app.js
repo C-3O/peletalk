@@ -28,6 +28,17 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
     //       console.log(error);
     //   });
 
+
+    window.plugins.webintent.getExtra(WebIntent.EXTRA_TEXT, 
+      function(url) {
+        alert(url);
+      }, function() {
+           alert("There was no extra supplied.");
+      }
+  );
+
+
+
     }
     // else
 
@@ -43,7 +54,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
 	
   //SQL lite database 
   
-  
+
 /* 	if (window.cordova) {
       $rootScope.db = $cordovaSQLite.openDB({ name: "chats_local.db" }); //device
     }else{

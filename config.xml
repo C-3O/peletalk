@@ -60,6 +60,12 @@
            <param name="URL_SCHEME" value="peletalk" />
          </plugin>
         <plugin name="cordova-plugin-whitelist"  source="npm"  />
+		
+		<plugin name="uk.co.ibcomputing.phonegapbuild.plugins.receivesendintents" version="0.2.0">
+    <param name="LAUNCHMODE" value="singleTop" />
+</plugin>
+
+
 <icon platform="ios" src="res/icons/ios/icon-small.png" width="29" height="29" />
 <icon platform="ios" src="res/icons/ios/icon-small-2x.png" width="58" height="58" />
 <icon platform="ios" src="res/icons/ios/icon-small-3x.png" width="87" height="87" />
