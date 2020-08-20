@@ -216,7 +216,7 @@ angular.module('app.services', [])
 				
 				SharedConnObj.connection.addHandler(SharedConnObj.on_subscription_request, null, "presence", "subscribe");
 				
-				$state.go('tabsController.contacts', {}, {location: "replace", reload: true});
+				$state.go('tabsController.chatDetails2', {}, {location: "replace", reload: true});
 		}
 	};
 

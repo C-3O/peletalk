@@ -61,7 +61,15 @@ angular.module('app.routes', [])
       }
     }
   })
-  
+  .state('tabsController.chatDetails2', {
+    url: '/page9',
+    views: {
+      'tab4': {
+        templateUrl: 'templates/chatDetails2.html',
+        controller: 'chatDetailsCtrl2'
+      }
+    }
+  })
   .state('register', {
     url: '/page7',
     templateUrl: 'templates/register.html',
