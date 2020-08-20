@@ -218,8 +218,8 @@ $scope.dname = window.localStorage["DeviceName"];
 })
 
 
-
-.controller('chatDetailsCtrl2', function($scope, $timeout, $ionicScrollDelegate,sharedConn,ChatDetails,sql) {
+//.controller('chatDetailsCtrl2', function($scope, $timeout, $ionicScrollDelegate,sharedConn,ChatDetails,sql)
+.controller('chatDetailsCtrl2', function($scope, $timeout, $ionicScrollDelegate,sharedConn,ChatDetails) {
 
 	$scope.hideTime = true;
 	$scope.data = {};
@@ -231,7 +231,7 @@ $scope.dname = window.localStorage["DeviceName"];
    
 	
 	//Loading Previous Conversation
-	$scope.messages = sql.showChats( $scope.myId , $scope.to_id );
+	$scope.messages = {}; // sql.showChats( $scope.myId , $scope.to_id );
 	$ionicScrollDelegate.scrollBottom(true);
   
 	var isIOS = ionic.Platform.isIOS(); 
@@ -263,11 +263,11 @@ $scope.dname = window.localStorage["DeviceName"];
 	  
 	  
 	  //SQL -- MSG SEND
-	  sql.insertChat({
+	/*   sql.insertChat({
 		  to_id: $scope.to_id,
 		  from_id:$scope.myId,
 		  message: $scope.data.message
-	  });	
+	  });	 */
   
 	  delete $scope.data.message;
 	  $ionicScrollDelegate.scrollBottom(true);
@@ -294,12 +294,12 @@ $scope.dname = window.localStorage["DeviceName"];
 		  
 		  
 		  //SQL -- MSG RECIEVE
-		  sql.insertChat({
+		/*   sql.insertChat({
 			  to_id: $scope.myId,
 			  from_id: from,
 			  message: textMsg
 		  });
-		  
+		   */
 		  
 	  //	if( from == $scope.to_id ){
 			  

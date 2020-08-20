@@ -5,8 +5,8 @@
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.int-pele.peletalk"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        version   = "120"
-        versionCode= "120" >
+        version   = "121"
+        versionCode= "121" >
 
 <name>Pele Talk</name>
 <description>The New Way To Talk</description>
@@ -110,7 +110,7 @@
            <string>For Push Notifications</string>
        </config-file>
     <config-file parent="CFBundleShortVersionString" platform="ios">
-        <string>143</string>
+        <string>121</string>
     </config-file>
      
 <access origin="*"/>
