@@ -13,7 +13,7 @@ angular.module('app.controllers', [])
 	
 })
 
-.controller('settingsCtrl', function($scope,$state,sharedConn) {
+.controller('settingsCtrl', function($scope,$state,sharedConn, $cordovaBarcodeScanner) {
 	
 $scope.dname = window.localStorage["DeviceName"];
 
@@ -26,6 +26,25 @@ $scope.dname = window.localStorage["DeviceName"];
 	$scope.setdevicename = function(dname){
 	window.localStorage.setItem("DeviceName", dname);
 }
+
+$scope.scanner = function()
+{
+	if (window.cordova != undefined) {
+	cordova.plugins.barcodeScanner.scan(
+		function (result) {
+			alert("We got a barcode\n" +
+				  "Result: " + result.text + "\n" +
+				  "Format: " + result.format + "\n" +
+				  "Cancelled: " + result.cancelled);
+		},
+		function (error) {
+			alert("Scanning failed: " + error);
+		}
+	 );
+	}
+}
+
+
 
 })
 
@@ -239,7 +258,7 @@ $scope.dname = window.localStorage["DeviceName"];
 		$scope.sendMsg=function(to,body){
 		  var to_jid  = Strophe.getBareJidFromJid(to);
 		  var timestamp = new Date().getTime();
-		  var reqChannelsItems = $msg({id:timestamp, to:to_jid+"@peletalk1-vvw.pelephone.co.il" , type: 'chat' })
+		  var reqChannelsItems = $msg({id:timestamp, to:to_jid+"@peletalk1-vvw.pelephone.co.il/PC" , type: 'chat' })
 									 .c("body").t(body);
 		  sharedConn.getConnectObj().send(reqChannelsItems.tree());
 	  
