@@ -111,6 +111,21 @@
 
 
     
+        <!--
+           Add a new intent-filter node to the app activity :
+        -->
+        <config-file target="AndroidManifest.xml" parent="./application/activity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="file" />
+                <data android:mimeType="*/*" />
+                <data android:pathPattern=".*\\.txt" />
+            </intent-filter>
+        </config-file>
+
+        
     <config-file parent="NSLocationAlwaysUsageDescription" platform="ios" target="*-Info.plist">
            <string> For Push Notifications</string>
        </config-file>

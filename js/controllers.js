@@ -23,6 +23,13 @@ $scope.dname = window.localStorage["DeviceName"];
 		$state.go('login', {}, {location: "replace", reload: true});
 	};
 
+
+	$scope.play=function(){
+		var audio = new Audio('sound/3.mp3');
+        audio.play();
+	};
+
+
 	$scope.setdevicename = function(dname){
 	window.localStorage.setItem("DeviceName", dname);
 }
