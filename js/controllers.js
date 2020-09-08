@@ -36,6 +36,10 @@ $scope.scanner = function()
 				  "Result: " + result.text + "\n" +
 				  "Format: " + result.format + "\n" +
 				  "Cancelled: " + result.cancelled);
+				  
+					ChatDetails.setTo(result.text);
+					$state.go('tabsController.chatDetails', {}, {location: "replace", reload: true});
+				 
 		},
 		function (error) {
 			alert("Scanning failed: " + error);
@@ -114,7 +118,7 @@ $scope.scanner = function()
   $scope.hideTime = true;
   $scope.data = {};
   $scope.myId = sharedConn.getBareJid( sharedConn.getConnectObj().jid );
-  $scope.to_id= window.localStorage["userjid"];//ChatDetails.getTo();
+  $scope.to_id= ChatDetails.getTo();
   
  
   
