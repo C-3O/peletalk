@@ -55,7 +55,7 @@ angular.module('app.routes', [])
   .state('tabsController.chatDetails', {
     url: '/page6',
     views: {
-      'tab2': {
+      'tab4': {
         templateUrl: 'templates/chatDetails.html',
         controller: 'chatDetailsCtrl'
       }

@@ -26,25 +26,28 @@ $scope.dname = window.localStorage["DeviceName"];
 	$scope.setdevicename = function(dname){
 	window.localStorage.setItem("DeviceName", dname);
 }
-
+$scope.to_device = '';
 $scope.scanner = function()
 {
 	if (window.cordova != undefined) {
 	cordova.plugins.barcodeScanner.scan(
 		function (result) {
-			alert("We got a barcode\n" +
-				  "Result: " + result.text + "\n" +
-				  "Format: " + result.format + "\n" +
-				  "Cancelled: " + result.cancelled);
-				  
-					ChatDetails.setTo(result.text);
-					$state.go('tabsController.chatDetails', {}, {location: "replace", reload: true});
-				 
+			$scope.to_device = result.text;
+
+				
 		},
 		function (error) {
 			alert("Scanning failed: " + error);
 		}
 	 );
+
+
+	 if (	$scope.to_device != ''){
+
+		ChatDetails.setTo(	$scope.to_device);
+		$state.go('tabsController.chatDetails', {}, {location: "replace", reload: true});
+	 
+	 }
 	}
 }
 
