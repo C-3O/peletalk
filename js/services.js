@@ -169,7 +169,7 @@ angular.module('app.services', [])
 	
 	 var SharedConnObj={};
 	
-	 SharedConnObj.BOSH_SERVICE = 'https://msso.pelephone.co.il/http-bind/';  
+	 SharedConnObj.BOSH_SERVICE = 'https://<serverfqdn>/http-bind/';  
 
 	 SharedConnObj.connection   = null;    // The main Strophe connection object.
 	 SharedConnObj.loggedIn=false;
